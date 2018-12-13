@@ -1,6 +1,9 @@
 language: node_js
 node_js: '6'
-os: linux
+os:
+- linux
+- osx
+- windows
 dist: xenial
 cache:
   directories:
