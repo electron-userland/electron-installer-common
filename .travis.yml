@@ -1,0 +1,18 @@
+language: node_js
+node_js: '6'
+os: linux
+dist: xenial
+cache:
+  directories:
+  - node_modules
+branches:
+  only:
+  - master
+  - /^v\d+\.\d+\.\d+/
+install:
+- npm install
+- npm update
+script: npm run ci
+after_success:
+- nyc report --reporter=text-lcov > coverage.lcov
+- $(npm bin)/codecov
