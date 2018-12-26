@@ -2,7 +2,15 @@
 
 ## [Unreleased]
 
-[Unreleased]: https://github.com/electron-userland/electron-installer-common/compare/v0.2.0...master
+[Unreleased]: https://github.com/electron-userland/electron-installer-common/compare/v0.3.0...master
+
+## [0.3.0] - 2018-12-26
+
+[0.3.0]: https://github.com/electron-userland/electron-installer-common/compare/v0.2.0...v0.3.0
+
+## Changed
+
+* Don't require an `options` object to use `readElectronVersion` (#3)
 
 ## [0.2.0] - 2018-12-26
 
