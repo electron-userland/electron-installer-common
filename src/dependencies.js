@@ -1,7 +1,5 @@
 'use strict'
 
-const fs = require('fs-extra')
-const path = require('path')
 const semver = require('semver')
 
 /**
@@ -39,23 +37,7 @@ function getUUIDDepends (version, dependencyMap) {
   return semver.gte(version, '4.0.0-beta.1') ? [dependencyMap.uuid] : []
 }
 
-/**
- * Reads the electron version file
- */
-function readElectronVersion (options) {
-  return fs.readFile(path.resolve(options.src, 'version'))
-    // The content of the version file pre-4.0 is the tag name, e.g. "v1.8.1"
-    // The content of the version file post-4.0 is just the version
-    .then(tag => tag.toString().trim())
-}
-
 module.exports = {
-  readElectronVersion: readElectronVersion,
-  getGConfDepends: getGConfDepends,
-  getGTKDepends: getGTKDepends,
-  getTrashDepends: getTrashDepends,
-  getUUIDDepends: getUUIDDepends,
-
   /**
    * Determine the default dependencies for an Electron application.
    */
@@ -70,5 +52,9 @@ module.exports = {
       dependencyMap.xdgUtils
     ].concat(getGConfDepends(version, dependencyMap))
       .concat(getUUIDDepends(version, dependencyMap))
-  }
+  },
+  getGConfDepends: getGConfDepends,
+  getGTKDepends: getGTKDepends,
+  getTrashDepends: getTrashDepends,
+  getUUIDDepends: getUUIDDepends
 }

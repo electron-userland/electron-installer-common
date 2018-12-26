@@ -20,12 +20,8 @@ const dependencyMap = {
   glib2: 'libglib2.0-bin'
 }
 
-test('getGTKDepends: returns GTK2 pre-2.0', t => {
-  t.is(dependencies.getGTKDepends('v1.8.2', dependencyMap), dependencyMap.gtk2)
-})
-
-test('getGTKDepends: returns GTK3 as of 2.0', t => {
-  t.is(dependencies.getGTKDepends('v2.0.0', dependencyMap), dependencyMap.gtk3)
+test('getDepends returns the expected dependency', t => {
+  t.true(dependencies.getDepends('4.0.0', dependencyMap).includes(dependencyMap.notify))
 })
 
 test('getGConfDepends: returns gconf pre-3.0', t => {
@@ -34,6 +30,14 @@ test('getGConfDepends: returns gconf pre-3.0', t => {
 
 test('getGConfDepends: returns nothing as of 3.0', t => {
   t.is(dependencies.getGConfDepends('4.0.0', dependencyMap).length, 0)
+})
+
+test('getGTKDepends: returns GTK2 pre-2.0', t => {
+  t.is(dependencies.getGTKDepends('v1.8.2', dependencyMap), dependencyMap.gtk2)
+})
+
+test('getGTKDepends: returns GTK3 as of 2.0', t => {
+  t.is(dependencies.getGTKDepends('v2.0.0', dependencyMap), dependencyMap.gtk3)
 })
 
 test('getTrashDepends: only depends on gvfs-bin before 1.4.1', t => {
@@ -63,13 +67,4 @@ test('getUUIDDepends: returns nothing pre-4.0', t => {
 
 test('getUUIDDepends: returns uuid as of 4.0', t => {
   t.is(dependencies.getUUIDDepends('4.0.0', dependencyMap)[0], dependencyMap.uuid)
-})
-
-test('returns the electron version', t => {
-  return dependencies.readElectronVersion({ src: 'test/fixtures' })
-    .then(version => t.is(version, 'v3.0.11'))
-})
-
-test('returns redhat dependencies', t => {
-  t.true(dependencies.getDepends('v4.0.0', dependencyMap).includes(dependencyMap.notify))
 })
