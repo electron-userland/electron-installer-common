@@ -1,6 +1,6 @@
 {
   "name": "electron-installer-common",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Common functionality for creating distributable Electron apps",
   "author": "Mark Lee",
   "license": "Apache-2.0",
@@ -18,7 +18,7 @@
     "installer"
   ],
   "devDependencies": {
-    "ava": "^1.0.0-rc.2",
+    "ava": "^1.0.1",
     "codecov": "^3.1.0",
     "eslint": "^5.10.0",
     "eslint-config-standard": "^12.0.0",

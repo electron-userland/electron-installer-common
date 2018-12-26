@@ -2,7 +2,16 @@
 
 ## [Unreleased]
 
-[Unreleased]: https://github.com/electron-userland/electron-installer-common/compare/v0.1.0...master
+[Unreleased]: https://github.com/electron-userland/electron-installer-common/compare/v0.2.0...master
+
+## [0.2.0] - 2018-12-26
+
+[0.2.0]: https://github.com/electron-userland/electron-installer-common/compare/v0.1.0...v0.2.0
+
+## Added
+
+* scoped package name replacer (#1)
+* utility functions for dealing with dependencies (#2)
 
 ## [0.1.0] - 2018-12-13
 
