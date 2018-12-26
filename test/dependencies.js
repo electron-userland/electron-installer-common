@@ -1,5 +1,6 @@
 'use strict'
 
+const _ = require('lodash')
 const dependencies = require('../src/dependencies')
 const test = require('ava')
 
@@ -67,4 +68,23 @@ test('getUUIDDepends: returns nothing pre-4.0', t => {
 
 test('getUUIDDepends: returns uuid as of 4.0', t => {
   t.is(dependencies.getUUIDDepends('4.0.0', dependencyMap)[0], dependencyMap.uuid)
+})
+
+function testMergeUserSpecified (t, dataPath) {
+  const defaults = {
+    dependencies: ['lsb', 'libXScrnSaver']
+  }
+  const data = _.set({}, dataPath, ['dbus', 'dbus', 'lsb'])
+
+  const actual = dependencies.mergeUserSpecified(data, 'dependencies', defaults)
+  actual.sort()
+  t.deepEqual(actual, ['dbus', 'libXScrnSaver', 'lsb'])
+}
+
+test('mergeUserSpecified with API options', t => {
+  testMergeUserSpecified(t, 'options.dependencies')
+})
+
+test('mergeUserSpecified with CLI options', t => {
+  testMergeUserSpecified(t, 'dependencies')
 })

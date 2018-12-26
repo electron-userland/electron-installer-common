@@ -1,5 +1,6 @@
 'use strict'
 
+const _ = require('lodash')
 const semver = require('semver')
 
 /**
@@ -56,5 +57,23 @@ module.exports = {
   getGConfDepends: getGConfDepends,
   getGTKDepends: getGTKDepends,
   getTrashDepends: getTrashDepends,
-  getUUIDDepends: getUUIDDepends
+  getUUIDDepends: getUUIDDepends,
+
+  /**
+   * Merge the user specified dependencies (from either the API or the CLI) with the respective
+   * default dependencies, given the `dependencyKey`.
+   *
+   * @param {object} data - the user-specified data
+   * @param {string} dependencyKey - the dependency type (e.g., `depends` for Debian
+   * runtime dependencies)
+   * @param {object} defaults - the default options for the installer module
+   *
+   */
+  mergeUserSpecified: function mergeUserSpecified (data, dependencyKey, defaults) {
+    if (data.options) { // options passed programmatically
+      return _.union(defaults[dependencyKey], data.options[dependencyKey])
+    } else { // options passed via command-line
+      return _.union(defaults[dependencyKey], data[dependencyKey])
+    }
+  }
 }
