@@ -10,7 +10,7 @@ const path = require('path')
  * The content of the version file post-4.0 is just the version.
  * Both of these are acceptable to the `semver` module.
  */
-module.exports = function readElectronVersion (options) {
-  return fs.readFile(path.resolve(options.src, 'version'))
+module.exports = function readElectronVersion (appDir) {
+  return fs.readFile(path.resolve(appDir, 'version'))
     .then(tag => tag.toString().trim())
 }
