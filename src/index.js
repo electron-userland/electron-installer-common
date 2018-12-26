@@ -173,6 +173,7 @@ module.exports = {
     return {
       arch: undefined,
       bin: pkg.name || 'electron',
+      execArguments: [],
       categories: [
         'GNOME',
         'GTK',
