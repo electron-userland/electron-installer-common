@@ -2,7 +2,16 @@
 
 ## [Unreleased]
 
-[Unreleased]: https://github.com/electron-userland/electron-installer-common/compare/v0.3.0...master
+[Unreleased]: https://github.com/electron-userland/electron-installer-common/compare/v0.4.0...master
+
+## [0.4.0] - 2018-12-26
+
+[0.4.0]: https://github.com/electron-userland/electron-installer-common/compare/v0.3.0...v0.4.0
+
+## Changed
+
+* `getDepends` no longer uses `getTrashDepends` (#4)
+* `getTrashDepends` returns a list of dependencies instead of a Debian-style dependency string (#4)
 
 ## [0.3.0] - 2018-12-26
 
