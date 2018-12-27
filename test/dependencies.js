@@ -43,23 +43,23 @@ test('getGTKDepends: returns GTK3 as of 2.0', t => {
 
 test('getTrashDepends: only depends on gvfs-bin before 1.4.1', t => {
   const trashDepends = dependencies.getTrashDepends('v1.3.0', dependencyMap)
-  t.regex(trashDepends, new RegExp(dependencyMap.gvfs))
-  t.notRegex(trashDepends, new RegExp(dependencyMap.kdeCliTools))
-  t.notRegex(trashDepends, new RegExp(dependencyMap.glib2))
+  t.true(trashDepends.includes(dependencyMap.gvfs))
+  t.false(trashDepends.includes(dependencyMap.kdeCliTools))
+  t.false(trashDepends.includes(dependencyMap.glib2))
 })
 
 test('getTrashDepends: depends on KDE tools between 1.4.1 and 1.7.1', t => {
   const trashDepends = dependencies.getTrashDepends('v1.6.0', dependencyMap)
-  t.regex(trashDepends, new RegExp(dependencyMap.gvfs))
-  t.regex(trashDepends, new RegExp(dependencyMap.kdeCliTools))
-  t.notRegex(trashDepends, new RegExp(dependencyMap.glib2))
+  t.true(trashDepends.includes(dependencyMap.gvfs))
+  t.true(trashDepends.includes(dependencyMap.kdeCliTools))
+  t.false(trashDepends.includes(dependencyMap.glib2))
 })
 
 test('getTrashDepends: depends on glib starting with 1.7.2', t => {
   const trashDepends = dependencies.getTrashDepends('v1.8.2', dependencyMap)
-  t.regex(trashDepends, new RegExp(dependencyMap.gvfs))
-  t.regex(trashDepends, new RegExp(dependencyMap.kdeCliTools))
-  t.regex(trashDepends, new RegExp(dependencyMap.glib2))
+  t.true(trashDepends.includes(dependencyMap.gvfs))
+  t.true(trashDepends.includes(dependencyMap.kdeCliTools))
+  t.true(trashDepends.includes(dependencyMap.glib2))
 })
 
 test('getUUIDDepends: returns nothing pre-4.0', t => {

@@ -18,16 +18,18 @@ function getGTKDepends (version, dependencyMap) {
 }
 
 /**
- * Determine the dependencies for the `shell.moveItemToTrash` API, based on the
+ * Determine the dependencies for the `shell.moveItemToTrash` Electron API, based on the
  * Electron version in use.
+ *
+ * @return {string[]} an ordered list of dependencies that are OR'd together by the installer module.
  */
 function getTrashDepends (version, dependencyMap) {
   if (semver.lt(version, '1.4.1')) {
-    return dependencyMap.gvfs
+    return [dependencyMap.gvfs]
   } else if (semver.lt(version, '1.7.2')) {
-    return `${dependencyMap.kdeCliTools} | ${dependencyMap.kdeRuntime} | ${dependencyMap.trashCli} | ${dependencyMap.gvfs}`
+    return [dependencyMap.kdeCliTools, dependencyMap.kdeRuntime, dependencyMap.trashCli, dependencyMap.gvfs]
   } else {
-    return `${dependencyMap.kdeCliTools} | ${dependencyMap.kdeRuntime} | ${dependencyMap.trashCli} | ${dependencyMap.glib2} | ${dependencyMap.gvfs}`
+    return [dependencyMap.kdeCliTools, dependencyMap.kdeRuntime, dependencyMap.trashCli, dependencyMap.glib2, dependencyMap.gvfs]
   }
 }
 
@@ -44,7 +46,6 @@ module.exports = {
    */
   getDepends: function getDepends (version, dependencyMap) {
     return [
-      getTrashDepends(version, dependencyMap),
       getGTKDepends(version, dependencyMap),
       dependencyMap.notify,
       dependencyMap.nss,
