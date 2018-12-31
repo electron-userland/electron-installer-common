@@ -6,7 +6,6 @@ const fs = require('fs-extra')
 const getHomePage = require('./gethomepage')
 const glob = require('glob-promise')
 const path = require('path')
-const spawn = require('./spawn')
 const tmp = require('tmp-promise')
 
 /**
@@ -222,6 +221,5 @@ module.exports = {
         }
       }).catch(wrapError('reading package metadata'))
   },
-  spawn: spawn,
   wrapError: wrapError
 }
