@@ -106,7 +106,7 @@ module.exports = {
     return fs.pathExists(bundledBin)
       .then(exists => {
         if (!exists) {
-          throw new Error(`could not find the Electron app binary at "${bundledBin}". You may need to set the "bin" option to the correct binary.`)
+          throw new Error(`could not find the Electron app binary at "${bundledBin}". You may need to re-bundle the app using Electron Packager's "executableName" option.`)
         }
         return fs.ensureDir(binDir, '0755')
       }).then(() => fs.symlink(binSrc, binDest, 'file'))
