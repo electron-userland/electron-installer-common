@@ -2,13 +2,21 @@
 
 ## [Unreleased]
 
-[Unreleased]: https://github.com/electron-userland/electron-installer-common/compare/v0.4.0...master
+[Unreleased]: https://github.com/electron-userland/electron-installer-common/compare/v0.4.1...master
+
+## [0.4.1] - 2019-01-02
+
+[0.4.1]: https://github.com/electron-userland/electron-installer-common/compare/v0.4.0...v0.4.1
+
+### Fixed
+
+* Check that `createBinary` symlinks to an existing Electron app binary (#6)
 
 ## [0.4.0] - 2018-12-26
 
 [0.4.0]: https://github.com/electron-userland/electron-installer-common/compare/v0.3.0...v0.4.0
 
-## Changed
+### Changed
 
 * `getDepends` no longer uses `getTrashDepends` (#4)
 * `getTrashDepends` returns a list of dependencies instead of a Debian-style dependency string (#4)
@@ -17,7 +25,7 @@
 
 [0.3.0]: https://github.com/electron-userland/electron-installer-common/compare/v0.2.0...v0.3.0
 
-## Changed
+### Changed
 
 * Don't require an `options` object to use `readElectronVersion` (#3)
 
@@ -25,7 +33,7 @@
 
 [0.2.0]: https://github.com/electron-userland/electron-installer-common/compare/v0.1.0...v0.2.0
 
-## Added
+### Added
 
 * scoped package name replacer (#1)
 * utility functions for dealing with dependencies (#2)
