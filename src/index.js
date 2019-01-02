@@ -101,10 +101,16 @@ module.exports = {
     const binDest = path.join(binDir, options.name)
     options.logger(`Symlinking binary from ${binSrc} to ${binDest}`)
 
-    return fs.ensureDir(binDir, '0755')
-      .catch(wrapError('creating binary path'))
-      .then(() => fs.symlink(binSrc, binDest, 'file'))
-      .catch(wrapError('creating binary file'))
+    const bundledBin = path.join(options.src, options.bin)
+
+    return fs.pathExists(bundledBin)
+      .then(exists => {
+        if (!exists) {
+          throw new Error(`could not find the Electron app binary at "${bundledBin}". You may need to set the "bin" option to the correct binary.`)
+        }
+        return fs.ensureDir(binDir, '0755')
+      }).then(() => fs.symlink(binSrc, binDest, 'file'))
+      .catch(wrapError('creating binary symlink'))
   },
   createContents: function createContents (options, dir, functions) {
     options.logger('Creating contents of package')
