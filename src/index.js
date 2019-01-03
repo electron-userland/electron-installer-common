@@ -2,10 +2,13 @@
 
 const _ = require('lodash')
 const asar = require('asar')
+const dependencies = require('./dependencies')
 const fs = require('fs-extra')
 const getHomePage = require('./gethomepage')
 const glob = require('glob-promise')
 const path = require('path')
+const readElectronVersion = require('./readelectronversion')
+const replaceScopeName = require('./replacescopename')
 const spawn = require('./spawn')
 const tmp = require('tmp-promise')
 
@@ -195,6 +198,12 @@ module.exports = {
       revision: pkg.revision || '1'
     }
   },
+  getDepends: dependencies.getDepends,
+  getGConfDepends: dependencies.getGConfDepends,
+  getGTKDepends: dependencies.getGTKDepends,
+  getTrashDepends: dependencies.getTrashDepends,
+  getUUIDDepends: dependencies.getUUIDDepends,
+  mergeUserSpecified: dependencies.mergeUserSpecified,
   /**
    * Move the package to the specified destination.
    */
@@ -209,6 +218,7 @@ module.exports = {
         return fs.move(file, dest, { clobber: true })
       }))).catch(wrapError('moving package files'))
   },
+  readElectronVersion: readElectronVersion,
   /**
    * Read `package.json` either from `resources/app.asar` (if the app is packaged)
    * or from `resources/app/package.json` (if it is not).
@@ -228,6 +238,7 @@ module.exports = {
         }
       }).catch(wrapError('reading package metadata'))
   },
+  replaceScopeName: replaceScopeName,
   spawn: spawn,
   wrapError: wrapError
 }
