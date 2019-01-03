@@ -1,13 +1,14 @@
 'use strict'
 
 const _ = require('lodash')
-const asar = require('asar')
 const dependencies = require('./dependencies')
+const error = require('./error')
 const fs = require('fs-extra')
 const getHomePage = require('./gethomepage')
 const glob = require('glob-promise')
 const path = require('path')
 const readElectronVersion = require('./readelectronversion')
+const readMetadata = require('./readmetadata')
 const replaceScopeName = require('./replacescopename')
 const spawn = require('./spawn')
 const tmp = require('tmp-promise')
@@ -20,10 +21,6 @@ function copyLicense (options, copyrightFile) {
   options.logger(`Copying license file from ${licenseSrc}`)
 
   return fs.copy(licenseSrc, copyrightFile)
-}
-
-function errorMessage (message, err) {
-  return `Error ${message}: ${err.message || err}`
 }
 
 /**
@@ -39,7 +36,7 @@ function createHicolorIcon (options, dir, hicolorBaseDir) {
     return fs.ensureDir(path.dirname(iconFile), '0755')
       .then(() => fs.copy(icon, iconFile))
       .then(() => fs.chmod(iconFile, '0644'))
-      .catch(wrapError('creating hicolor icon file'))
+      .catch(error.wrapError('creating hicolor icon file'))
   }))
 }
 
@@ -52,10 +49,10 @@ function createPixmapIcon (options, dir, pixmapsBaseDir) {
   options.logger(`Creating icon file at ${iconFile}`)
 
   return fs.ensureDir(path.dirname(iconFile), '0755')
-    .catch(wrapError('creating icon path'))
+    .catch(error.wrapError('creating icon path'))
     .then(() => fs.copy(options.icon, iconFile))
     .then(() => fs.chmod(iconFile, '0644'))
-    .catch(wrapError('creating icon file'))
+    .catch(error.wrapError('creating icon file'))
 }
 
 function destinationDir (dir, baseDir) {
@@ -76,13 +73,6 @@ function generateTemplate (options, file) {
     })
 }
 
-function wrapError (message) {
-  return err => {
-    /* istanbul ignore next */
-    throw new Error(errorMessage(message, err))
-  }
-}
-
 module.exports = {
   /**
    * Copies the bundled application into the lib directory.
@@ -93,7 +83,7 @@ module.exports = {
 
     return fs.ensureDir(applicationDir, '0755')
       .then(() => fs.copy(options.src, applicationDir, { filter: ignoreFunc }))
-      .catch(wrapError('copying application directory'))
+      .catch(error.wrapError('copying application directory'))
   },
   /**
    * Create the symlink to the binary for the package.
@@ -113,14 +103,14 @@ module.exports = {
         }
         return fs.ensureDir(binDir, '0755')
       }).then(() => fs.symlink(binSrc, binDest, 'file'))
-      .catch(wrapError('creating binary symlink'))
+      .catch(error.wrapError('creating binary symlink'))
   },
   createContents: function createContents (options, dir, functions) {
     options.logger('Creating contents of package')
 
     return Promise.all(functions.map(func => func(options, dir)))
       .then(() => dir)
-      .catch(wrapError('creating contents of package'))
+      .catch(error.wrapError('creating contents of package'))
   },
   /**
    * Create copyright for the package.
@@ -133,7 +123,7 @@ module.exports = {
     return fs.ensureDir(path.dirname(copyrightFile), '0755')
       .then(() => copyLicense(options, copyrightFile))
       .then(() => fs.chmod(copyrightFile, '0644'))
-      .catch(wrapError('creating copyright file'))
+      .catch(error.wrapError('creating copyright file'))
   },
   /**
    * Create the desktop file for the package.
@@ -146,11 +136,11 @@ module.exports = {
     options.logger(`Creating desktop file at ${desktopDest}`)
 
     return fs.ensureDir(path.dirname(desktopDest), '0755')
-      .catch(wrapError('creating desktop path'))
+      .catch(error.wrapError('creating desktop path'))
       .then(() => generateTemplate(options, desktopSrc))
       .then(data => fs.outputFile(desktopDest, data))
       .then(() => fs.chmod(desktopDest, '0644'))
-      .catch(wrapError('creating desktop file'))
+      .catch(error.wrapError('creating desktop file'))
   },
   /**
    * Create temporary directory where the contents of the package will live.
@@ -159,11 +149,11 @@ module.exports = {
     options.logger('Creating temporary directory')
 
     return tmp.dir({ prefix: 'electron-', unsafeCleanup: true })
-      .catch(wrapError('creating temporary directory'))
+      .catch(error.wrapError('creating temporary directory'))
       .then(dir => {
         const tempDir = path.join(dir.path, `${options.name}_${options.version}_${options.arch}`)
         return fs.ensureDir(tempDir, '0755')
-      }).catch(wrapError('changing permissions on temporary directory'))
+      }).catch(error.wrapError('changing permissions on temporary directory'))
   },
 
   /**
@@ -176,7 +166,7 @@ module.exports = {
       return createPixmapIcon(options, dir, baseIconDir)
     }
   },
-  errorMessage: errorMessage,
+  errorMessage: error.errorMessage,
   generateTemplate: generateTemplate,
   getDefaultsFromPackageJSON: function getDefaultsFromPackageJSON (pkg) {
     return {
@@ -216,29 +206,11 @@ module.exports = {
         const dest = _.template(template)(options)
         options.logger(`Moving file ${file} to ${dest}`)
         return fs.move(file, dest, { clobber: true })
-      }))).catch(wrapError('moving package files'))
+      }))).catch(error.wrapError('moving package files'))
   },
   readElectronVersion: readElectronVersion,
-  /**
-   * Read `package.json` either from `resources/app.asar` (if the app is packaged)
-   * or from `resources/app/package.json` (if it is not).
-   */
-  readMeta: function readMeta (options) {
-    const appAsarPath = path.join(options.src, 'resources/app.asar')
-    const appPackageJSONPath = path.join(options.src, 'resources/app/package.json')
-
-    return fs.pathExists(appAsarPath)
-      .then(asarExists => {
-        if (asarExists) {
-          options.logger(`Reading package metadata from ${appAsarPath}`)
-          return JSON.parse(asar.extractFile(appAsarPath, 'package.json'))
-        } else {
-          options.logger(`Reading package metadata from ${appPackageJSONPath}`)
-          return fs.readJson(appPackageJSONPath)
-        }
-      }).catch(wrapError('reading package metadata'))
-  },
+  readMeta: readMetadata,
   replaceScopeName: replaceScopeName,
   spawn: spawn,
-  wrapError: wrapError
+  wrapError: error.wrapError
 }
