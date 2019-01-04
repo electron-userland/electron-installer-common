@@ -12,9 +12,9 @@ test('Return same name if not scoped', t => {
 })
 
 test('Scoped name with default divider', t => {
-  t.is(replaceScopeName('@scoped/core'), 'scoped_core')
+  t.is(replaceScopeName('@scoped/core'), 'scoped-core')
 })
 
 test('Scoped name using a custom divider', t => {
-  t.is(replaceScopeName('@scoped/core', '-'), 'scoped-core')
+  t.is(replaceScopeName('@scoped/core', '_'), 'scoped_core')
 })
