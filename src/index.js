@@ -10,6 +10,7 @@ const path = require('path')
 const readElectronVersion = require('./readelectronversion')
 const readMetadata = require('./readmetadata')
 const replaceScopeName = require('./replacescopename')
+const sanitizeName = require('./sanitizename')
 const spawn = require('./spawn')
 const tmp = require('tmp-promise')
 
@@ -211,6 +212,7 @@ module.exports = {
   readElectronVersion: readElectronVersion,
   readMeta: readMetadata,
   replaceScopeName: replaceScopeName,
+  sanitizeName: sanitizeName,
   spawn: spawn,
   wrapError: error.wrapError
 }
