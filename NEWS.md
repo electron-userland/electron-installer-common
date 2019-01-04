@@ -2,7 +2,15 @@
 
 ## [Unreleased]
 
-[Unreleased]: https://github.com/electron-userland/electron-installer-common/compare/v0.4.1...master
+[Unreleased]: https://github.com/electron-userland/electron-installer-common/compare/v0.4.2...master
+
+## [0.4.2] - 2019-01-03
+
+[0.4.2]: https://github.com/electron-userland/electron-installer-common/compare/v0.4.1...v0.4.2
+
+### Added
+
+* Re-export public functions not already in `src/index.js` (#7)
 
 ## [0.4.1] - 2019-01-02
 
