@@ -2,7 +2,19 @@
 
 ## [Unreleased]
 
-[Unreleased]: https://github.com/electron-userland/electron-installer-common/compare/v0.4.2...master
+[Unreleased]: https://github.com/electron-userland/electron-installer-common/compare/v0.5.0...master
+
+## [0.5.0] - 2019-01-04
+
+[0.5.0]: https://github.com/electron-userland/electron-installer-common/compare/v0.4.2...v0.5.0
+
+### Added
+
+* `sanitizeName` function (#10)
+
+### Changed
+
+* The default value for `replaceScopeName`'s `divider` parameter changed from `_` to `-` (#10)
 
 ## [0.4.2] - 2019-01-03
 
