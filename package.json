@@ -17,6 +17,10 @@
     "electron",
     "installer"
   ],
+  "files": [
+    "NEWS.md",
+    "src"
+  ],
   "devDependencies": {
     "ava": "^1.0.1",
     "codecov": "^3.1.0",
