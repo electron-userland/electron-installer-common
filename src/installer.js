@@ -13,6 +13,10 @@ class ElectronInstaller {
     this.userSupplied = userSupplied
   }
 
+  get appIdentifier () {
+    return this.options.name
+  }
+
   get baseAppDir () {
     return 'usr'
   }
@@ -36,7 +40,7 @@ class ElectronInstaller {
   }
 
   get stagingAppDir () {
-    return path.join(this.stagingDir, this.baseAppDir, 'lib', this.options.name)
+    return path.join(this.stagingDir, this.baseAppDir, 'lib', this.appIdentifier)
   }
 
   /**
@@ -56,7 +60,7 @@ class ElectronInstaller {
   copyHicolorIcons () {
     return Promise.all(_.map(this.options.icon, (iconSrc, resolution) => {
       const iconExt = resolution === 'scalable' ? 'svg' : 'png'
-      const iconFile = path.join(this.stagingDir, this.baseAppDir, 'share', 'icons', 'hicolor', resolution, 'apps', `${this.options.name}.${iconExt}`)
+      const iconFile = path.join(this.stagingDir, this.baseAppDir, 'share', 'icons', 'hicolor', resolution, 'apps', `${this.appIdentifier}.${iconExt}`)
 
       return this.copyIcon(iconSrc, iconFile)
         .catch(error.wrapError('creating hicolor icon file'))
@@ -99,7 +103,7 @@ class ElectronInstaller {
    * Create pixmap icon for the package.
    */
   copyPixmapIcon () {
-    const iconFile = path.join(this.stagingDir, this.baseAppDir, 'share', 'pixmaps', `${this.options.name}.png`)
+    const iconFile = path.join(this.stagingDir, this.baseAppDir, 'share', 'pixmaps', `${this.appIdentifier}.png`)
 
     return this.copyIcon(this.options.icon, iconFile)
       .catch(error.wrapError('creating pixmap icon file'))
@@ -109,8 +113,8 @@ class ElectronInstaller {
    * Create the symlink to the binary for the package.
    */
   createBinarySymlink () {
-    const binSrc = path.join('../lib', this.options.name, this.options.bin)
-    const binDest = path.join(this.stagingDir, this.baseAppDir, 'bin', this.options.name)
+    const binSrc = path.join('../lib', this.appIdentifier, this.options.bin)
+    const binDest = path.join(this.stagingDir, this.baseAppDir, 'bin', this.appIdentifier)
     debug(`Symlinking binary from ${binSrc} to ${binDest}`)
 
     const bundledBin = path.join(this.sourceDir, this.options.bin)
@@ -136,7 +140,7 @@ class ElectronInstaller {
    * Create copyright for the package.
    */
   createCopyright () {
-    const copyrightFile = path.join(this.stagingDir, this.baseAppDir, 'share', 'doc', this.options.name, 'copyright')
+    const copyrightFile = path.join(this.stagingDir, this.baseAppDir, 'share', 'doc', this.appIdentifier, 'copyright')
     debug(`Creating copyright file at ${copyrightFile}`)
 
     return fs.ensureDir(path.dirname(copyrightFile), '0755')
@@ -152,7 +156,7 @@ class ElectronInstaller {
    */
   createDesktopFile () {
     const src = this.options.desktopTemplate || this.defaultDesktopTemplatePath
-    const dest = path.join(this.stagingDir, this.baseAppDir, 'share', 'applications', `${this.options.name}.desktop`)
+    const dest = path.join(this.stagingDir, this.baseAppDir, 'share', 'applications', `${this.appIdentifier}.desktop`)
     debug(`Creating desktop file at ${dest}`)
 
     return this.createTemplatedFile(src, dest, '0644')
@@ -168,7 +172,7 @@ class ElectronInstaller {
     return tmp.dir({ prefix: 'electron-', unsafeCleanup: true })
       .catch(error.wrapError('creating temporary directory'))
       .then(dir => {
-        this.stagingDir = path.join(dir.path, `${this.options.name}_${this.options.version}_${this.options.arch}`)
+        this.stagingDir = path.join(dir.path, `${this.appIdentifier}_${this.options.version}_${this.options.arch}`)
         return fs.ensureDir(this.stagingDir, '0755')
       }).catch(error.wrapError('changing permissions on temporary directory'))
   }
