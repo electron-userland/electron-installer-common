@@ -80,7 +80,12 @@ class ElectronInstaller {
   copyIcon (src, dest) {
     debug(`Copying icon file at from "${src}" to "${dest}"`)
 
-    return fs.ensureDir(path.dirname(dest), '0755')
+    return fs.pathExists(src)
+      .then(exists => {
+        if (!exists) {
+          throw new Error(`The icon "${src}" does not exist`)
+        }
+      }).then(() => fs.ensureDir(path.dirname(dest), '0755'))
       .then(() => fs.copy(src, dest))
       .then(() => fs.chmod(dest, '0644'))
   }
@@ -101,7 +106,7 @@ class ElectronInstaller {
   copyLinuxIcons () {
     if (_.isObject(this.options.icon)) {
       return this.copyHicolorIcons()
-    } else {
+    } else if (this.options.icon) {
       return this.copyPixmapIcon()
     }
   }
