@@ -35,6 +35,13 @@ class ElectronInstaller {
     throw new Error('Please implement defaultDesktopTemplatePath')
   }
 
+  /**
+   * The Linux pixmap icon path, relative to the `baseAppDir`.
+   */
+  get pixmapIconPath () {
+    return path.join('share', 'pixmaps', `${this.appIdentifier}.png`)
+  }
+
   get sourceDir () {
     return this.options.src
   }
@@ -103,7 +110,7 @@ class ElectronInstaller {
    * Create pixmap icon for the package.
    */
   copyPixmapIcon () {
-    const iconFile = path.join(this.stagingDir, this.baseAppDir, 'share', 'pixmaps', `${this.appIdentifier}.png`)
+    const iconFile = path.join(this.stagingDir, this.baseAppDir, this.pixmapIconPath)
 
     return this.copyIcon(this.options.icon, iconFile)
       .catch(error.wrapError('creating pixmap icon file'))
