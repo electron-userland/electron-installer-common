@@ -4,6 +4,7 @@ const _ = require('lodash')
 const dependencies = require('./dependencies')
 const error = require('./error')
 const fs = require('fs-extra')
+const getDefaultsFromPackageJSON = require('./defaults')
 const getHomePage = require('./gethomepage')
 const glob = require('glob-promise')
 const path = require('path')
@@ -169,26 +170,7 @@ module.exports = {
   },
   errorMessage: error.errorMessage,
   generateTemplate: generateTemplate,
-  getDefaultsFromPackageJSON: function getDefaultsFromPackageJSON (pkg) {
-    return {
-      arch: undefined,
-      bin: pkg.name || 'electron',
-      execArguments: [],
-      categories: [
-        'GNOME',
-        'GTK',
-        'Utility'
-      ],
-      description: pkg.description,
-      genericName: pkg.genericName || pkg.productName || pkg.name,
-      homepage: getHomePage(pkg),
-      mimeType: [],
-      name: pkg.name || 'electron',
-      productDescription: pkg.productDescription || pkg.description,
-      productName: pkg.productName || pkg.name,
-      revision: pkg.revision || '1'
-    }
-  },
+  getDefaultsFromPackageJSON,
   getDepends: dependencies.getDepends,
   getGConfDepends: dependencies.getGConfDepends,
   getGTKDepends: dependencies.getGTKDepends,
