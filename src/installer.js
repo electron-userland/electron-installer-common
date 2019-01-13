@@ -2,10 +2,12 @@
 
 const _ = require('lodash')
 const debug = require('debug')('electron-installer-common:installer')
+const desktop = require('./desktop')
 const error = require('./error')
 const glob = require('glob-promise')
 const fs = require('fs-extra')
 const path = require('path')
+const template = require('./template')
 const tmp = require('tmp-promise')
 
 class ElectronInstaller {
@@ -85,6 +87,7 @@ class ElectronInstaller {
         if (!exists) {
           throw new Error(`The icon "${src}" does not exist`)
         }
+        return true
       }).then(() => fs.ensureDir(path.dirname(dest), '0755'))
       .then(() => fs.copy(src, dest))
       .then(() => fs.chmod(dest, '0644'))
@@ -167,12 +170,9 @@ class ElectronInstaller {
    * See: http://standards.freedesktop.org/desktop-entry-spec/latest/
    */
   createDesktopFile () {
-    const src = this.options.desktopTemplate || this.defaultDesktopTemplatePath
-    const dest = path.join(this.stagingDir, this.baseAppDir, 'share', 'applications', `${this.appIdentifier}.desktop`)
-    debug(`Creating desktop file at ${dest}`)
-
-    return this.createTemplatedFile(src, dest, '0644')
-      .catch(error.wrapError('creating desktop file'))
+    const templatePath = this.options.desktopTemplate || this.defaultDesktopTemplatePath
+    const baseDir = path.join(this.stagingDir, this.baseAppDir, 'share', 'applications')
+    return desktop.createDesktopFile(templatePath, baseDir, this.appIdentifier, this.options)
   }
 
   /**
@@ -189,16 +189,8 @@ class ElectronInstaller {
       }).catch(error.wrapError('changing permissions on temporary directory'))
   }
 
-  createTemplatedFile (templatePath, dest, permissions) {
-    return fs.ensureDir(path.dirname(dest), '0755')
-      .then(() => this.generateTemplate(templatePath))
-      .then(data => fs.outputFile(dest, data))
-      .then(() => {
-        if (permissions) {
-          return fs.chmod(dest, permissions)
-        }
-        return Promise.resolve()
-      })
+  createTemplatedFile (templatePath, dest, filePermissions) {
+    return template.createTemplatedFile(templatePath, dest, this.options, filePermissions)
   }
 
   /**
@@ -209,21 +201,6 @@ class ElectronInstaller {
   }
 
   /**
-   * Fill in a template with the hash of options.
-   */
-  generateTemplate (file, options) {
-    debug(`Generating template from ${file}`)
-    options = options || this.options
-
-    return fs.readFile(file)
-      .then(template => {
-        const result = _.template(template)(options)
-        debug(`Generated template from ${file}\n${result}`)
-        return result
-      })
-  }
-
-  /**
    * Move the package to the specified destination.
    */
   movePackage () {
@@ -231,8 +208,8 @@ class ElectronInstaller {
 
     return glob(this.packagePattern)
       .then(files => Promise.all(files.map(file => {
-        const template = this.options.rename(this.options.dest, path.basename(file))
-        const dest = _.template(template)(this.options)
+        const renameTemplate = this.options.rename(this.options.dest, path.basename(file))
+        const dest = _.template(renameTemplate)(this.options)
         debug(`Moving file ${file} to ${dest}`)
         return fs.move(file, dest, { clobber: true })
       }))).catch(error.wrapError('moving package files'))

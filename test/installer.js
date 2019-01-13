@@ -13,6 +13,7 @@ test('createBinarySymlink creates symlink when bin exists', t => {
     src: path.join(__dirname, 'fixtures', 'bundled_app')
   }
   const installer = new ElectronInstaller(options)
+  installer.generateOptions()
   return installer.createStagingDir()
     .then(() => installer.createBinarySymlink())
     .then(() => fs.lstat(path.join(installer.stagingDir, installer.baseAppDir, 'bin', 'bundled_app')))
@@ -27,6 +28,8 @@ test('createBinarySymlink does not create symlink when bin does not exist', t =>
     src: path.join(__dirname, 'fixtures', 'bundled_app')
   }
   const installer = new ElectronInstaller(options)
+  installer.generateOptions()
   return installer.createStagingDir()
+    .then(() => installer.createStagingDir())
     .then(() => t.throwsAsync(installer.createBinarySymlink(), /could not find the Electron app binary/))
 })
