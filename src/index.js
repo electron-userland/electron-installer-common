@@ -2,10 +2,10 @@
 
 const _ = require('lodash')
 const dependencies = require('./dependencies')
+const desktop = require('./desktop')
 const error = require('./error')
 const fs = require('fs-extra')
 const getDefaultsFromPackageJSON = require('./defaults')
-const getHomePage = require('./gethomepage')
 const glob = require('glob-promise')
 const path = require('path')
 const readElectronVersion = require('./readelectronversion')
@@ -13,6 +13,7 @@ const readMetadata = require('./readmetadata')
 const replaceScopeName = require('./replacescopename')
 const sanitizeName = require('./sanitizename')
 const spawn = require('./spawn')
+const template = require('./template')
 const tmp = require('tmp-promise')
 
 /**
@@ -59,20 +60,6 @@ function createPixmapIcon (options, dir, pixmapsBaseDir) {
 
 function destinationDir (dir, baseDir) {
   return baseDir ? path.join(baseDir, dir) : dir
-}
-
-/**
- * Fill in a template with the hash of options.
- */
-function generateTemplate (options, file) {
-  options.logger(`Generating template from ${file}`)
-
-  return fs.readFile(file)
-    .then(template => {
-      const result = _.template(template)(options)
-      options.logger(`Generated template from ${file}\n${result}`)
-      return result
-    })
 }
 
 module.exports = {
@@ -133,16 +120,8 @@ module.exports = {
    * See: http://standards.freedesktop.org/desktop-entry-spec/latest/
    */
   createDesktop: function createDesktop (options, dir, desktopSrc, applicationsBaseDir) {
-    const applicationsDir = destinationDir('usr/share/applications', applicationsBaseDir)
-    const desktopDest = path.join(dir, applicationsDir, `${options.name}.desktop`)
-    options.logger(`Creating desktop file at ${desktopDest}`)
-
-    return fs.ensureDir(path.dirname(desktopDest), '0755')
-      .catch(error.wrapError('creating desktop path'))
-      .then(() => generateTemplate(options, desktopSrc))
-      .then(data => fs.outputFile(desktopDest, data))
-      .then(() => fs.chmod(desktopDest, '0644'))
-      .catch(error.wrapError('creating desktop file'))
+    const baseDir = path.join(dir, destinationDir('usr/share/applications', applicationsBaseDir))
+    return desktop.createDesktopFile(desktopSrc, baseDir, options.name, options)
   },
   /**
    * Create temporary directory where the contents of the package will live.
@@ -168,8 +147,9 @@ module.exports = {
       return createPixmapIcon(options, dir, baseIconDir)
     }
   },
+  createTemplatedFile: template.createTemplatedFile,
   errorMessage: error.errorMessage,
-  generateTemplate: generateTemplate,
+  generateTemplate: template.generateTemplate,
   getDefaultsFromPackageJSON,
   getDepends: dependencies.getDepends,
   getGConfDepends: dependencies.getGConfDepends,
