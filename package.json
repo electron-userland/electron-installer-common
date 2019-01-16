@@ -48,6 +48,10 @@
   "engines": {
     "node": ">= 6.0"
   },
+  "ava": {
+    "babel": false,
+    "compileEnhancements": false
+  },
   "eslintConfig": {
     "extends": [
       "eslint:recommended",
