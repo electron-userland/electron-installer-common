@@ -23,6 +23,7 @@ class ElectronInstaller {
     return 'usr'
   }
 
+  /* istanbul ignore next */
   /**
    * A list of method names to run during `createContents()`.
    */
@@ -30,6 +31,7 @@ class ElectronInstaller {
     throw new Error('Please implement contentFunctions')
   }
 
+  /* istanbul ignore next */
   /**
    * The path to the default .desktop file template.
    */
@@ -144,6 +146,10 @@ class ElectronInstaller {
       .catch(error.wrapError('creating binary symlink'))
   }
 
+  /**
+   * Generate the contents of the package in "parallel" by calling the methods specified in
+   * `contentFunctions` getter through `Promise.all`.
+   */
   createContents () {
     debug('Creating contents of package')
 
