@@ -188,11 +188,10 @@ class ElectronInstaller {
     debug('Creating staging directory')
 
     return tmp.dir({ prefix: 'electron-', unsafeCleanup: true })
-      .catch(error.wrapError('creating temporary directory'))
       .then(dir => {
         this.stagingDir = path.join(dir.path, `${this.appIdentifier}_${this.options.version}_${this.options.arch}`)
         return fs.ensureDir(this.stagingDir, '0755')
-      }).catch(error.wrapError('changing permissions on temporary directory'))
+      }).catch(error.wrapError('creating staging directory'))
   }
 
   createTemplatedFile (templatePath, dest, filePermissions) {
