@@ -15,7 +15,10 @@ module.exports = {
   },
   assertPathPermissions: function assertPathPermissions (t, pathToCheck, expectedPermissions) {
     return fs.stat(pathToCheck)
-      .then(stats => t.is(stats.mode & 0o7777, expectedPermissions))
+      .then(stats => {
+        const actual = stats.mode & 0o7777
+        return t.is(actual, expectedPermissions, `Expected mode=${expectedPermissions.toString(8)}, got ${actual.toString(8)}`
+      })
   },
   assertTrimmedFileContents: function assertTrimmedFileContents (t, filePath, expectedContents) {
     return fs.readFile(filePath)
