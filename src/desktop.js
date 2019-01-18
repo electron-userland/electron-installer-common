@@ -10,7 +10,7 @@ module.exports = {
     const dest = path.join(dir, `${baseName}.desktop`)
     debug(`Creating desktop file at ${dest}`)
 
-    return createTemplatedFile(templatePath, dest, options)
+    return createTemplatedFile(templatePath, dest, options, 0o644)
       .catch(wrapError('creating desktop file'))
   }
 }
