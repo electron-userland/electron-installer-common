@@ -21,8 +21,8 @@ test('createTemplatedFile', t => {
 test('createTemplatedFile with permissions', t => {
   return util.unsafeTempDir(dir => {
     const renderedPath = path.join(dir.path, 'rendered')
-    return template.createTemplatedFile(util.SIMPLE_TEMPLATE_PATH, renderedPath, { name: 'World' }, 0o744)
+    return template.createTemplatedFile(util.SIMPLE_TEMPLATE_PATH, renderedPath, { name: 'World' }, 0o644)
       .then(() => util.assertTrimmedFileContents(t, renderedPath, 'Hello, World!'))
-      .then(() => util.assertPathPermissions(t, renderedPath, 0o744))
+      .then(() => util.assertPathPermissions(t, renderedPath, 0o644))
   })
 })
