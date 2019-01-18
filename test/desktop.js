@@ -9,6 +9,6 @@ test('createDesktopFile', t => {
   return util.unsafeTempDir(dir => {
     const renderedPath = path.join(dir.path, 'rendered.desktop')
     return createDesktopFile(util.SIMPLE_TEMPLATE_PATH, dir.path, 'rendered', { name: 'World' })
-      .then(() => util.assertPathExists(t, renderedPath))
+      .then(() => util.assertPathPermissions(t, renderedPath, 0o644))
   })
 })

@@ -1,6 +1,5 @@
 'use strict'
 
-const fs = require('fs-extra')
 const path = require('path')
 const template = require('../src/template')
 const test = require('ava')
@@ -24,6 +23,6 @@ test('createTemplatedFile with permissions', t => {
     const renderedPath = path.join(dir.path, 'rendered')
     return template.createTemplatedFile(util.SIMPLE_TEMPLATE_PATH, renderedPath, { name: 'World' }, 0o744)
       .then(() => util.assertTrimmedFileContents(t, renderedPath, 'Hello, World!'))
-      .then(() => fs.access(renderedPath, fs.constants.X_OK))
+      .then(() => util.assertPathPermissions(t, renderedPath, 0o744))
   })
 })
