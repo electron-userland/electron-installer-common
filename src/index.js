@@ -28,7 +28,7 @@ module.exports = {
   getUUIDDepends: dependencies.getUUIDDepends,
   mergeUserSpecified: dependencies.mergeUserSpecified,
   readElectronVersion,
-  readMeta: readMetadata,
+  readMetadata,
   replaceScopeName,
   sanitizeName,
   spawn,
