@@ -1,33 +1,28 @@
 'use strict'
 
-const fs = require('fs-extra')
 const path = require('path')
 const template = require('../src/template')
 const test = require('ava')
-const tmp = require('tmp-promise')
-
-const SIMPLE_TEMPLATE_PATH = path.resolve(__dirname, 'fixtures', 'template', 'simple.ejs')
+const util = require('./_util')
 
 test('generateTemplate', t => {
-  return template.generateTemplate(SIMPLE_TEMPLATE_PATH, { name: 'World' })
+  return template.generateTemplate(util.SIMPLE_TEMPLATE_PATH, { name: 'World' })
     .then(data => t.is(data.trim(), 'Hello, World!'))
 })
 
 test('createTemplatedFile', t => {
-  return tmp.withDir(dir => {
+  return util.unsafeTempDir(dir => {
     const renderedPath = path.join(dir.path, 'rendered')
-    return template.createTemplatedFile(SIMPLE_TEMPLATE_PATH, renderedPath, { name: 'World' })
-      .then(() => fs.readFile(renderedPath))
-      .then(data => t.is(data.toString().trim(), 'Hello, World!'))
-  }, { unsafeCleanup: true })
+    return template.createTemplatedFile(util.SIMPLE_TEMPLATE_PATH, renderedPath, { name: 'World' })
+      .then(() => util.assertTrimmedFileContents(t, renderedPath, 'Hello, World!'))
+  })
 })
 
 test('createTemplatedFile with permissions', t => {
-  return tmp.withDir(dir => {
+  return util.unsafeTempDir(dir => {
     const renderedPath = path.join(dir.path, 'rendered')
-    return template.createTemplatedFile(SIMPLE_TEMPLATE_PATH, renderedPath, { name: 'World' }, 0o744)
-      .then(() => fs.readFile(renderedPath))
-      .then(data => t.is(data.toString().trim(), 'Hello, World!'))
-      .then(() => fs.access(renderedPath, fs.constants.X_OK))
-  }, { unsafeCleanup: true })
+    return template.createTemplatedFile(util.SIMPLE_TEMPLATE_PATH, renderedPath, { name: 'World' }, 0o644)
+      .then(() => util.assertTrimmedFileContents(t, renderedPath, 'Hello, World!'))
+      .then(() => util.assertPathPermissions(t, renderedPath, 0o644))
+  })
 })
