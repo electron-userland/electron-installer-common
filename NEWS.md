@@ -2,7 +2,20 @@
 
 ## [Unreleased]
 
-[Unreleased]: https://github.com/electron-userland/electron-installer-common/compare/v0.5.0...master
+[Unreleased]: https://github.com/electron-userland/electron-installer-common/compare/v0.6.0...master
+
+## [0.6.0] - 2019-01-22
+
+[0.6.0]: https://github.com/electron-userland/electron-installer-common/compare/v0.5.0...v0.6.0
+
+### Fixed
+
+* Retain original backtrace when using wrapError (#11)
+
+### Changed
+
+* Replace many exported functions with an installer class (#13)
+* Rename `readMeta` to `readMetadata` (#14)
 
 ## [0.5.0] - 2019-01-04
 
