@@ -2,7 +2,15 @@
 
 ## [Unreleased]
 
-[Unreleased]: https://github.com/electron-userland/electron-installer-common/compare/v0.6.0...master
+[Unreleased]: https://github.com/electron-userland/electron-installer-common/compare/v0.6.1...master
+
+## [0.6.1] - 2019-02-19
+
+[0.6.1]: https://github.com/electron-userland/electron-installer-common/compare/v0.6.0...v0.6.1
+
+### Fixed
+
+* Upgrade `asar` to `^1.0.0`, which removes a vulnerable transitive dependency (#15)
 
 ## [0.6.0] - 2019-01-22
 
