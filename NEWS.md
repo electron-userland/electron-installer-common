@@ -2,7 +2,15 @@
 
 ## [Unreleased]
 
-[Unreleased]: https://github.com/electron-userland/electron-installer-common/compare/v0.6.1...master
+[Unreleased]: https://github.com/electron-userland/electron-installer-common/compare/v0.6.2...master
+
+## [0.6.2] - 2019-03-07
+
+[0.6.2]: https://github.com/electron-userland/electron-installer-common/compare/v0.6.1...v0.6.2
+
+### Added
+
+* Sandbox helper permission updater (#16)
 
 ## [0.6.1] - 2019-02-19
 
