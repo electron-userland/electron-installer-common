@@ -176,3 +176,30 @@ test('movePackage', t => {
       .then(() => util.assertPathExists(t, path.join(destDir, 'test_foo.pkg')))
   })
 })
+
+if (process.platform !== 'win32') {
+  test('updateSandboxHelperPermissions with no sandbox does nothing', t => {
+    const installer = new ElectronInstaller({ name: 'copyapp', src: path.join(__dirname, 'fixtures', 'app-with-asar') })
+    installer.generateOptions()
+    return installer.createStagingDir()
+      .then(() => installer.copyApplication())
+      .then(() => installer.updateSandboxHelperPermissions())
+      .then(() => util.assertPathNotExists(t, path.join(installer.stagingAppDir, 'chrome-sandbox')))
+  })
+
+  test('updateSandboxHelperPermissions with sandbox chmods the sandbox file correctly', t => {
+    return util.unsafeTempDir(dir => {
+      const originalFixturesDir = path.join(__dirname, 'fixtures', 'app-with-asar')
+      const copiedFixturesDir = path.join(dir.path, 'bundled_app')
+      const chromeSandbox = 'chrome-sandbox'
+      const installer = new ElectronInstaller({ name: 'copyapp', src: copiedFixturesDir })
+      installer.generateOptions()
+      return fs.copy(originalFixturesDir, copiedFixturesDir)
+        .then(() => fs.outputFile(path.join(copiedFixturesDir, chromeSandbox), ''))
+        .then(() => installer.createStagingDir())
+        .then(() => installer.copyApplication())
+        .then(() => installer.updateSandboxHelperPermissions())
+        .then(() => util.assertPathPermissions(t, path.join(installer.stagingAppDir, chromeSandbox), 0o4755))
+    })
+  })
+}

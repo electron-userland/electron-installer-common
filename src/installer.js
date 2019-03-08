@@ -50,6 +50,9 @@ class ElectronInstaller {
     return this.options.src
   }
 
+  /**
+   * The directory that the bundled application is copied to, relative to `stagingDir`.
+   */
   get stagingAppDir () {
     return path.join(this.stagingDir, this.baseAppDir, 'lib', this.appIdentifier)
   }
@@ -218,6 +221,28 @@ class ElectronInstaller {
         debug(`Moving file ${file} to ${dest}`)
         return fs.move(file, dest, { clobber: true })
       }))).catch(error.wrapError('moving package files'))
+  }
+
+  /**
+   * For Electron versions that support the setuid sandbox on Linux, changes the permissions of
+   * the `chrome-sandbox` executable as appropriate.
+   *
+   * The sandbox helper executable must have the setuid (`+s` / `0o4000`) bit set.
+   *
+   * This doesn't work on Windows because you can't set that bit there.
+   *
+   * See: https://github.com/electron/electron/pull/17269#issuecomment-470671914
+   */
+  updateSandboxHelperPermissions () {
+    const sandboxHelperPath = path.join(this.stagingAppDir, 'chrome-sandbox')
+    return fs.pathExists(sandboxHelperPath)
+      .then(exists => {
+        if (exists) {
+          return fs.chmod(sandboxHelperPath, 0o4755)
+        } else {
+          return Promise.resolve()
+        }
+      })
   }
 }
 
