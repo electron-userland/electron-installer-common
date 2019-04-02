@@ -43,7 +43,7 @@
     "glob-promise": "^3.4.0",
     "lodash": "^4.17.11",
     "parse-author": "^2.0.0",
-    "semver": "^5.6.0",
+    "semver": "^6.0.0",
     "tmp-promise": "^1.0.5"
   },
   "engines": {
