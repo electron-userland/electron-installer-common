@@ -3,10 +3,10 @@
 const spawn = require('../src/spawn')
 const test = require('ava')
 
-test('returns stdout', t => {
+test('returns stdout', async t => {
   const dir = process.platform === 'darwin' ? 'ls' : 'dir'
-  return spawn(dir, [__dirname], log => null)
-    .then(output => t.regex(output, /spawn/))
+  const output = await spawn(dir, [__dirname], log => null)
+  t.regex(output, /spawn/)
 })
 
 test('throws an error when it cannot find an executable', t => {

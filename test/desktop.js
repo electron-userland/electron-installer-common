@@ -6,9 +6,9 @@ const test = require('ava')
 const util = require('./_util')
 
 test('createDesktopFile', t => {
-  return util.unsafeTempDir(dir => {
+  return util.unsafeTempDir(async dir => {
     const renderedPath = path.join(dir.path, 'rendered.desktop')
-    return createDesktopFile(util.SIMPLE_TEMPLATE_PATH, dir.path, 'rendered', { name: 'World' })
-      .then(() => util.assertPathPermissions(t, renderedPath, 0o644))
+    await createDesktopFile(util.SIMPLE_TEMPLATE_PATH, dir.path, 'rendered', { name: 'World' })
+    await util.assertPathPermissions(t, renderedPath, 0o644)
   })
 })

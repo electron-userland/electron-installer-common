@@ -47,7 +47,7 @@
     "tmp-promise": "^1.0.5"
   },
   "engines": {
-    "node": ">= 6.0"
+    "node": ">= 8.0"
   },
   "ava": {
     "babel": false,
@@ -67,7 +67,6 @@
       "ava"
     ],
     "rules": {
-      "ava/prefer-async-await": 0,
       "node/no-unpublished-require": [
         "error",
         {
