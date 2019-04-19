@@ -14,11 +14,28 @@ module.exports = {
    * ```javascript
    * Promise.reject(new Error('My error')).catch(wrapError('with the code'))
    * ```
+   *
+   * The `wrappedFunction` parameter is used for async/await use cases. For example:
+   *
+   * ```javascript
+   * wrapError('with the code', async () => {
+   *   await foo();
+   *   await bar();
+   * })
+   * ```
    */
-  wrapError: function wrapError (message) {
-    return err => {
-      err.message = errorMessage(message, err)
-      throw err
+  wrapError: function wrapError (message, wrappedFunction) {
+    if (wrappedFunction) {
+      try {
+        return wrappedFunction()
+      } catch (error) {
+        module.exports.wrapError(message)(error)
+      }
+    } else {
+      return err => {
+        err.message = errorMessage(message, err)
+        throw err
+      }
     }
   }
 }

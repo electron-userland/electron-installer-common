@@ -16,3 +16,9 @@ test('wrapError', t => {
     .catch(error.wrapError('in a test'))
   return t.throwsAsync(promise, /Error in a test: My error/)
 })
+
+test('wrapError with wrappedFunction specified', t => {
+  t.throws(() => error.wrapError('in a test', () => {
+    throw new Error('My error')
+  }), 'Error in a test: My error')
+})

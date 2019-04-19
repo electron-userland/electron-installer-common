@@ -61,48 +61,45 @@ class ElectronInstaller {
   /**
    * Copies the bundled application into the staging directory.
    */
-  copyApplication (ignoreFunc) {
+  async copyApplication (ignoreFunc) {
     debug(`Copying application to ${this.stagingAppDir}`)
 
-    return fs.ensureDir(this.stagingAppDir, '0755')
-      .then(() => fs.copy(this.sourceDir, this.stagingAppDir, { filter: ignoreFunc }))
-      .catch(error.wrapError('copying application directory'))
+    return error.wrapError('copying application directory', async () => {
+      await fs.ensureDir(this.stagingAppDir, '0755')
+      return fs.copy(this.sourceDir, this.stagingAppDir, { filter: ignoreFunc })
+    })
   }
 
   /**
    * Create hicolor icon for the package.
    */
-  copyHicolorIcons () {
+  async copyHicolorIcons () {
     return Promise.all(_.map(this.options.icon, (iconSrc, resolution) => {
       const iconExt = resolution === 'scalable' ? 'svg' : 'png'
       const iconFile = path.join(this.stagingDir, this.baseAppDir, 'share', 'icons', 'hicolor', resolution, 'apps', `${this.appIdentifier}.${iconExt}`)
 
-      return this.copyIcon(iconSrc, iconFile)
-        .catch(error.wrapError('creating hicolor icon file'))
+      return error.wrapError('creating hicolor icon file', async () => this.copyIcon(iconSrc, iconFile))
     }))
   }
 
   /**
    * Generically copy an icon.
    */
-  copyIcon (src, dest) {
+  async copyIcon (src, dest) {
     debug(`Copying icon file at from "${src}" to "${dest}"`)
 
-    return fs.pathExists(src)
-      .then(exists => {
-        if (!exists) {
-          throw new Error(`The icon "${src}" does not exist`)
-        }
-        return true
-      }).then(() => fs.ensureDir(path.dirname(dest), '0755'))
-      .then(() => fs.copy(src, dest))
-      .then(() => fs.chmod(dest, '0644'))
+    if (!await fs.pathExists(src)) {
+      throw new Error(`The icon "${src}" does not exist`)
+    }
+    await fs.ensureDir(path.dirname(dest), '0755')
+    await fs.copy(src, dest)
+    return fs.chmod(dest, '0644')
   }
 
   /**
    * Copy `LICENSE` from the root of the app to a different location.
    */
-  copyLicense (copyrightFile) {
+  async copyLicense (copyrightFile) {
     const licenseSrc = path.join(this.sourceDir, 'LICENSE')
     debug(`Copying license file from ${licenseSrc}`)
 
@@ -112,7 +109,7 @@ class ElectronInstaller {
   /**
    * Copy icons into the appropriate locations on Linux.
    */
-  copyLinuxIcons () {
+  async copyLinuxIcons () {
     if (_.isObject(this.options.icon)) {
       return this.copyHicolorIcons()
     } else if (this.options.icon) {
@@ -123,55 +120,53 @@ class ElectronInstaller {
   /**
    * Create pixmap icon for the package.
    */
-  copyPixmapIcon () {
+  async copyPixmapIcon () {
     const iconFile = path.join(this.stagingDir, this.baseAppDir, this.pixmapIconPath)
 
-    return this.copyIcon(this.options.icon, iconFile)
-      .catch(error.wrapError('creating pixmap icon file'))
+    return error.wrapError('creating pixmap icon file', async () => this.copyIcon(this.options.icon, iconFile))
   }
 
   /**
    * Create the symlink to the binary for the package.
    */
-  createBinarySymlink () {
+  async createBinarySymlink () {
     const binSrc = path.join('../lib', this.appIdentifier, this.options.bin)
     const binDest = path.join(this.stagingDir, this.baseAppDir, 'bin', this.appIdentifier)
     debug(`Symlinking binary from ${binSrc} to ${binDest}`)
 
     const bundledBin = path.join(this.sourceDir, this.options.bin)
 
-    return fs.pathExists(bundledBin)
-      .then(exists => {
-        if (!exists) {
-          throw new Error(`could not find the Electron app binary at "${bundledBin}". You may need to re-bundle the app using Electron Packager's "executableName" option.`)
-        }
-        return fs.ensureDir(path.dirname(binDest), '0755')
-      }).then(() => fs.symlink(binSrc, binDest, 'file'))
-      .catch(error.wrapError('creating binary symlink'))
+    return error.wrapError('creating binary symlink', async () => {
+      if (!await fs.pathExists(bundledBin)) {
+        throw new Error(`could not find the Electron app binary at "${bundledBin}". You may need to re-bundle the app using Electron Packager's "executableName" option.`)
+      }
+      await fs.ensureDir(path.dirname(binDest), '0755')
+      return fs.symlink(binSrc, binDest, 'file')
+    })
   }
 
   /**
    * Generate the contents of the package in "parallel" by calling the methods specified in
    * `contentFunctions` getter through `Promise.all`.
    */
-  createContents () {
+  async createContents () {
     debug('Creating contents of package')
 
-    return Promise.all(this.contentFunctions.map(func => this[func]()))
-      .catch(error.wrapError('creating contents of package'))
+    return error.wrapError('creating contents of package', async () => Promise.all(this.contentFunctions.map(func => this[func]())))
   }
 
   /**
    * Create copyright for the package.
    */
-  createCopyright () {
+  async createCopyright () {
     const copyrightFile = path.join(this.stagingDir, this.baseAppDir, 'share', 'doc', this.appIdentifier, 'copyright')
     debug(`Creating copyright file at ${copyrightFile}`)
 
-    return fs.ensureDir(path.dirname(copyrightFile), '0755')
-      .then(() => this.copyLicense(copyrightFile))
-      .then(() => fs.chmod(copyrightFile, '0644'))
-      .catch(error.wrapError('creating copyright file'))
+    return error.wrapError('creating copyright file', async () => {
+      await fs.ensureDir(path.dirname(copyrightFile), '0755')
+      await this.copyLicense(copyrightFile)
+      await fs.chmod(copyrightFile, '0644')
+    })
   }
 
   /**
@@ -179,7 +174,7 @@ class ElectronInstaller {
    *
    * See: http://standards.freedesktop.org/desktop-entry-spec/latest/
    */
-  createDesktopFile () {
+  async createDesktopFile () {
     const templatePath = this.options.desktopTemplate || this.defaultDesktopTemplatePath
     const baseDir = path.join(this.stagingDir, this.baseAppDir, 'share', 'applications')
     return desktop.createDesktopFile(templatePath, baseDir, this.appIdentifier, this.options)
@@ -188,17 +183,17 @@ class ElectronInstaller {
   /**
    * Create temporary directory where the contents of the package will live.
    */
-  createStagingDir () {
+  async createStagingDir () {
     debug('Creating staging directory')
 
-    return tmp.dir({ prefix: 'electron-', unsafeCleanup: true })
-      .then(dir => {
-        this.stagingDir = path.join(dir.path, `${this.appIdentifier}_${this.options.version}_${this.options.arch}`)
-        return fs.ensureDir(this.stagingDir, '0755')
-      }).catch(error.wrapError('creating staging directory'))
+    return error.wrapError('creating staging directory', async () => {
+      const dir = await tmp.dir({ prefix: 'electron-', unsafeCleanup: true })
+      this.stagingDir = path.join(dir.path, `${this.appIdentifier}_${this.options.version}_${this.options.arch}`)
+      return fs.ensureDir(this.stagingDir, '0755')
+    })
   }
 
-  createTemplatedFile (templatePath, dest, filePermissions) {
+  async createTemplatedFile (templatePath, dest, filePermissions) {
     return template.createTemplatedFile(templatePath, dest, this.options, filePermissions)
   }
 
@@ -212,23 +207,25 @@ class ElectronInstaller {
   /**
    * Move the package to the specified destination.
    */
-  movePackage () {
+  async movePackage () {
     debug('Moving package to destination')
 
-    return glob(this.packagePattern)
-      .then(files => Promise.all(files.map(file => {
+    return error.wrapError('moving package files', async () => {
+      const files = await glob(this.packagePattern)
+      return Promise.all(files.map(async file => {
         const renameTemplate = this.options.rename(this.options.dest, path.basename(file))
         const dest = _.template(renameTemplate)(this.options)
         debug(`Moving file ${file} to ${dest}`)
         return fs.move(file, dest, { clobber: true })
-      }))).catch(error.wrapError('moving package files'))
+      }))
+    })
   }
 
   /**
    * For Electron versions that support the setuid sandbox on Linux, changes the permissions of
    * the `chrome-sandbox` executable as appropriate.
    */
-  updateSandboxHelperPermissions () {
+  async updateSandboxHelperPermissions () {
     return updateSandboxHelperPermissions(this.stagingAppDir)
   }
 }

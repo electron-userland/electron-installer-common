@@ -83,8 +83,8 @@ test('createBinarySymlink creates symlink when bin exists', async t => {
   installer.generateOptions()
   await installer.createStagingDir()
   await installer.createBinarySymlink()
-  await fs.lstat(path.join(installer.stagingDir, installer.baseAppDir, 'bin', 'bundled_app'))
-    .then(stats => t.true(stats.isSymbolicLink()))
+  const stats = await fs.lstat(path.join(installer.stagingDir, installer.baseAppDir, 'bin', 'bundled_app'))
+  t.true(stats.isSymbolicLink())
 })
 
 test('createBinarySymlink does not create symlink when bin does not exist', async t => {
