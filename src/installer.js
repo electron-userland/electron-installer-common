@@ -1,11 +1,13 @@
 'use strict'
 
+const { promisify } = require('util')
+
 const _ = require('lodash')
 const debug = require('debug')('electron-installer-common:installer')
 const desktop = require('./desktop')
 const error = require('./error')
 const fs = require('fs-extra')
-const glob = require('glob-promise')
+const glob = promisify(require('glob'))
 const path = require('path')
 const template = require('./template')
 const tmp = require('tmp-promise')
