@@ -4,11 +4,12 @@ const _ = require('lodash')
 const debug = require('debug')('electron-installer-common:installer')
 const desktop = require('./desktop')
 const error = require('./error')
-const glob = require('glob-promise')
 const fs = require('fs-extra')
+const glob = require('glob-promise')
 const path = require('path')
 const template = require('./template')
 const tmp = require('tmp-promise')
+const updateSandboxHelperPermissions = require('./sandboxhelper')
 
 class ElectronInstaller {
   constructor (userSupplied) {
@@ -226,23 +227,9 @@ class ElectronInstaller {
   /**
    * For Electron versions that support the setuid sandbox on Linux, changes the permissions of
    * the `chrome-sandbox` executable as appropriate.
-   *
-   * The sandbox helper executable must have the setuid (`+s` / `0o4000`) bit set.
-   *
-   * This doesn't work on Windows because you can't set that bit there.
-   *
-   * See: https://github.com/electron/electron/pull/17269#issuecomment-470671914
    */
   updateSandboxHelperPermissions () {
-    const sandboxHelperPath = path.join(this.stagingAppDir, 'chrome-sandbox')
-    return fs.pathExists(sandboxHelperPath)
-      .then(exists => {
-        if (exists) {
-          return fs.chmod(sandboxHelperPath, 0o4755)
-        } else {
-          return Promise.resolve()
-        }
-      })
+    return updateSandboxHelperPermissions(this.stagingAppDir)
   }
 }
 
