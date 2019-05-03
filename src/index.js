@@ -12,6 +12,7 @@ const replaceScopeName = require('./replacescopename')
 const sanitizeName = require('./sanitizename')
 const spawn = require('./spawn')
 const template = require('./template')
+const updateSandboxHelperPermissions = require('./sandboxhelper')
 
 module.exports = {
   createDesktopFile: desktop.createDesktopFile,
@@ -32,5 +33,6 @@ module.exports = {
   replaceScopeName,
   sanitizeName,
   spawn,
+  updateSandboxHelperPermissions,
   wrapError: error.wrapError
 }
