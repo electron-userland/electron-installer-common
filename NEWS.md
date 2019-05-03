@@ -2,7 +2,15 @@
 
 ## [Unreleased]
 
-[Unreleased]: https://github.com/electron-userland/electron-installer-common/compare/v0.6.2...master
+[Unreleased]: https://github.com/electron-userland/electron-installer-common/compare/v0.6.3...master
+
+## [0.6.3] - 2019-05-02
+
+[0.6.3]: https://github.com/electron-userland/electron-installer-common/compare/v0.6.2...v0.6.3
+
+### Added
+
+* `updateSandboxHelperPermissions` function outside of `ElectronInstaller` (#23)
 
 ## [0.6.2] - 2019-03-07
 

@@ -1,6 +1,6 @@
 {
   "name": "electron-installer-common",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "description": "Common functionality for creating distributable Electron apps",
   "author": "Mark Lee",
   "license": "Apache-2.0",
