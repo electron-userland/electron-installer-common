@@ -13,6 +13,8 @@ const template = require('./template')
 const tmp = require('tmp-promise')
 const updateSandboxHelperPermissions = require('./sandboxhelper')
 
+tmp.setGracefulCleanup()
+
 class ElectronInstaller {
   constructor (userSupplied) {
     this.userSupplied = userSupplied
@@ -189,7 +191,7 @@ class ElectronInstaller {
     debug('Creating staging directory')
 
     return error.wrapError('creating staging directory', async () => {
-      const dir = await tmp.dir({ prefix: 'electron-', unsafeCleanup: true })
+      const dir = await tmp.dir({ prefix: 'electron-installer-', unsafeCleanup: true })
       this.stagingDir = path.join(dir.path, `${this.appIdentifier}_${this.options.version}_${this.options.arch}`)
       return fs.ensureDir(this.stagingDir, '0755')
     })
