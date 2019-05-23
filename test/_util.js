@@ -5,29 +5,25 @@ const path = require('path')
 const tmp = require('tmp-promise')
 
 module.exports = {
-  assertPathExists: function assertPathExists (t, pathToCheck) {
-    return fs.pathExists(pathToCheck)
-      .then(exists => t.true(exists, `File "${pathToCheck}" should exist`))
+  assertPathExists: async function assertPathExists (t, pathToCheck) {
+    t.true(await fs.pathExists(pathToCheck), `File "${pathToCheck}" should exist`)
   },
-  assertPathNotExists: function assertPathExists (t, pathToCheck) {
-    return fs.pathExists(pathToCheck)
-      .then(exists => t.false(exists, `File "${pathToCheck}" should not exist`))
+  assertPathNotExists: async function assertPathExists (t, pathToCheck) {
+    t.false(await fs.pathExists(pathToCheck), `File "${pathToCheck}" should not exist`)
   },
-  assertPathPermissions: function assertPathPermissions (t, pathToCheck, expectedPermissions) {
-    return fs.stat(pathToCheck)
-      .then(stats => {
-        const actual = stats.mode & 0o7777
-        const msg = `Expected mode=${expectedPermissions.toString(8)}, got ${actual.toString(8)}`
-        if (process.platform === 'win32') {
-          return t.true((actual & expectedPermissions) === expectedPermissions, msg)
-        } else {
-          return t.is(actual, expectedPermissions, msg)
-        }
-      })
+  assertPathPermissions: async function assertPathPermissions (t, pathToCheck, expectedPermissions) {
+    const stats = await fs.stat(pathToCheck)
+    const actual = stats.mode & 0o7777
+    const msg = `Expected mode=${expectedPermissions.toString(8)}, got ${actual.toString(8)}`
+    if (process.platform === 'win32') {
+      t.true((actual & expectedPermissions) === expectedPermissions, msg)
+    } else {
+      t.is(actual, expectedPermissions, msg)
+    }
   },
-  assertTrimmedFileContents: function assertTrimmedFileContents (t, filePath, expectedContents) {
-    return fs.readFile(filePath)
-      .then(data => t.is(data.toString().trim(), expectedContents))
+  assertTrimmedFileContents: async function assertTrimmedFileContents (t, filePath, expectedContents) {
+    const data = await fs.readFile(filePath)
+    t.is(data.toString().trim(), expectedContents)
   },
   SIMPLE_TEMPLATE_PATH: path.resolve(__dirname, 'fixtures', 'template', 'simple.ejs'),
   unsafeTempDir: function unsafeTempDir (promise) {

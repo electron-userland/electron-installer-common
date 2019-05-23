@@ -5,7 +5,7 @@ const fs = require('fs-extra')
 const path = require('path')
 const { wrapError } = require('./error')
 
-function readPackageJSONFromUnpackedApp (options) {
+async function readPackageJSONFromUnpackedApp (options) {
   const appPackageJSONPath = path.join(options.src, 'resources', 'app', 'package.json')
   options.logger(`Reading package metadata from ${appPackageJSONPath}`)
 
@@ -25,16 +25,15 @@ function readPackageJSONFromUnpackedApp (options) {
  * * `logger`: function that handles debug messages, e.g.,
  *             `debug('electron-installer-something:some-module')`
  */
-module.exports = function readMetadata (options) {
+module.exports = async function readMetadata (options) {
   const appAsarPath = path.join(options.src, 'resources/app.asar')
 
-  return fs.pathExists(appAsarPath)
-    .then(asarExists => {
-      if (asarExists) {
-        options.logger(`Reading package metadata from ${appAsarPath}`)
-        return JSON.parse(asar.extractFile(appAsarPath, 'package.json'))
-      } else {
-        return readPackageJSONFromUnpackedApp(options)
-      }
-    }).catch(wrapError('reading package metadata'))
+  return wrapError('reading package metadata', async () => {
+    if (await fs.pathExists(appAsarPath)) {
+      options.logger(`Reading package metadata from ${appAsarPath}`)
+      return JSON.parse(asar.extractFile(appAsarPath, 'package.json'))
+    } else {
+      return readPackageJSONFromUnpackedApp(options)
+    }
+  })
 }

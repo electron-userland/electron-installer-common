@@ -13,14 +13,9 @@ const path = require('path')
  *
  * See: https://github.com/electron/electron/pull/17269#issuecomment-470671914
  */
-module.exports = function updateSandboxHelperPermissions (appDir) {
+module.exports = async function updateSandboxHelperPermissions (appDir) {
   const sandboxHelperPath = path.join(appDir, 'chrome-sandbox')
-  return fs.pathExists(sandboxHelperPath)
-    .then(exists => {
-      if (exists) {
-        return fs.chmod(sandboxHelperPath, 0o4755)
-      } else {
-        return Promise.resolve()
-      }
-    })
+  if (await fs.pathExists(sandboxHelperPath)) {
+    return fs.chmod(sandboxHelperPath, 0o4755)
+  }
 }

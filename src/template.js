@@ -8,29 +8,26 @@ const path = require('path')
 /**
  * Fill in a template with the hash of data.
  */
-function generateTemplate (file, data) {
+async function generateTemplate (file, data) {
   debug(`Generating template from ${file}`)
 
-  return fs.readFile(file)
-    .then(template => {
-      const result = _.template(template)(data)
-      debug(`Generated template from ${file}\n${result}`)
-      return result
-    })
+  const result = _.template(await fs.readFile(file))(data)
+  debug(`Generated template from ${file}\n${result}`)
+  return result
 }
 
 module.exports = {
   /**
    * Create a file from a template. Any necessary directories are automatically created.
    */
-  createTemplatedFile: function createTemplatedFile (templatePath, dest, options, filePermissions) {
+  createTemplatedFile: async function createTemplatedFile (templatePath, dest, options, filePermissions) {
     const fileOptions = {}
     if (filePermissions) {
       fileOptions.mode = filePermissions
     }
-    return fs.ensureDir(path.dirname(dest), '0755')
-      .then(() => generateTemplate(templatePath, options))
-      .then(data => fs.outputFile(dest, data, fileOptions))
+    await fs.ensureDir(path.dirname(dest), '0755')
+    const data = await generateTemplate(templatePath, options)
+    return fs.outputFile(dest, data, fileOptions)
   },
   generateTemplate
 }
