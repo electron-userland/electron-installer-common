@@ -2,7 +2,14 @@
 
 const getHomePage = require('./gethomepage')
 
-module.exports = function getDefaultsFromPackageJSON (pkg) {
+/**
+ * Generate default configuration values from the given parsed `package.json`.
+ *
+ * @param pkg - the parsed `package.json` file
+ * @param fallbacks (optional) - fallback default value for certain options, currently:
+ * * `revision`
+ */
+module.exports = function getDefaultsFromPackageJSON (pkg, fallbacks = {}) {
   return {
     arch: undefined,
     bin: pkg.name || 'electron',
@@ -19,6 +26,6 @@ module.exports = function getDefaultsFromPackageJSON (pkg) {
     name: pkg.name || 'electron',
     productDescription: pkg.productDescription || pkg.description,
     productName: pkg.productName || pkg.name,
-    revision: pkg.revision || '1'
+    revision: pkg.revision || fallbacks.revision
   }
 }
