@@ -20,7 +20,7 @@ test('empty package.json', t => {
     name: 'electron',
     productDescription: undefined,
     productName: undefined,
-    revision: '1'
+    revision: undefined
   })
 })
 
@@ -44,6 +44,11 @@ test('description and product description specified', t => {
   const defaults = getDefaultsFromPackageJSON({ description: 'Description', productDescription: 'Product' })
   t.is(defaults.description, 'Description')
   t.is(defaults.productDescription, 'Product')
+})
+
+test('revision not specified with a fallback specified', t => {
+  const { revision } = getDefaultsFromPackageJSON({}, { revision: '1' })
+  t.is(revision, '1')
 })
 
 test('revision specified', t => {
