@@ -8,6 +8,8 @@ dist: xenial
 cache:
 - npm: true
 - yarn: true
+env:
+- YARN_GPG=no
 branches:
   only:
   - master
