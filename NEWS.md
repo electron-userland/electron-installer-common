@@ -2,7 +2,23 @@
 
 ## [Unreleased]
 
-[Unreleased]: https://github.com/electron-userland/electron-installer-common/compare/v0.6.3...master
+[Unreleased]: https://github.com/electron-userland/electron-installer-common/compare/v0.7.0...master
+
+## [0.7.0] - 2019-05-24
+
+[0.7.0]: https://github.com/electron-userland/electron-installer-common/compare/v0.6.3...v0.7.0
+
+### Fixed
+
+* Let implementing modules specify revision fallbacks (#29)
+
+### Changed
+
+* `wrapError` is more `async`/`await`-friendly (#27)
+
+### Removed
+
+* Support for Node &lt; 8 (#27)
 
 ## [0.6.3] - 2019-05-02
 
