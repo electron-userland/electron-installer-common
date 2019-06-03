@@ -22,7 +22,7 @@
     "src"
   ],
   "devDependencies": {
-    "ava": "^1.0.1",
+    "ava": "^2.0.0",
     "codecov": "^3.5.0",
     "eslint": "^5.10.0",
     "eslint-config-standard": "^12.0.0",
