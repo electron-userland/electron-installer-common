@@ -8,9 +8,9 @@
   "scripts": {
     "ava": "ava",
     "ci": "npm run lint && npm run coverage",
-    "coverage": "nyc ava test",
+    "coverage": "nyc ava",
     "lint": "eslint .",
-    "test": "npm run lint && npm run ava"
+    "test": "npm run lint && ava"
   },
   "repository": "electron-userland/electron-installer-common",
   "keywords": [
