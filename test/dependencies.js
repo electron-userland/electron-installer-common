@@ -5,6 +5,7 @@ const dependencies = require('../src/dependencies')
 const test = require('ava')
 
 const dependencyMap = {
+  atspi: 'libatspi2.0-0',
   notify: 'libnotify4',
   nss: 'libnss3',
   xss: 'libxss1',
@@ -20,6 +21,10 @@ const dependencyMap = {
   trashCli: 'trash-cli',
   glib2: 'libglib2.0-bin'
 }
+
+test('getATSPIDepends: returns atspi as of 5.0', t => {
+  t.is(dependencies.getATSPIDepends('5.0.0', dependencyMap)[0], dependencyMap.atspi)
+})
 
 test('getDepends returns the expected dependency', t => {
   t.true(dependencies.getDepends('4.0.0', dependencyMap).includes(dependencyMap.notify))
