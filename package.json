@@ -6,11 +6,11 @@
   "license": "Apache-2.0",
   "main": "src/index.js",
   "scripts": {
-    "ava": "ava test",
+    "ava": "ava",
     "ci": "npm run lint && npm run coverage",
-    "coverage": "nyc ava test",
+    "coverage": "nyc ava",
     "lint": "eslint .",
-    "test": "npm run lint && npm run ava"
+    "test": "npm run lint && ava"
   },
   "repository": "electron-userland/electron-installer-common",
   "keywords": [
@@ -22,11 +22,11 @@
     "src"
   ],
   "devDependencies": {
-    "ava": "^1.0.1",
+    "ava": "^2.0.0",
     "codecov": "^3.5.0",
     "eslint": "^5.10.0",
     "eslint-config-standard": "^12.0.0",
-    "eslint-plugin-ava": "^6.0.0",
+    "eslint-plugin-ava": "^7.0.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-node": "^9.0.1",
     "eslint-plugin-promise": "^4.0.1",
@@ -50,7 +50,10 @@
   },
   "ava": {
     "babel": false,
-    "compileEnhancements": false
+    "compileEnhancements": false,
+    "files": [
+      "test/*.js"
+    ]
   },
   "eslintConfig": {
     "extends": [
