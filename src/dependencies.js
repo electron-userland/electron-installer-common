@@ -4,6 +4,13 @@ const _ = require('lodash')
 const semver = require('semver')
 
 /**
+ * Determine whether libatspi2 is necessary, given the Electron version.
+ */
+function getATSPIDepends (version, dependencyMap) {
+  return semver.gte(version, '5.0.0-beta.1') ? [dependencyMap.atspi] : []
+}
+
+/**
  * Determine whether GConf is a necessary dependency, given the Electron version.
  */
 function getGConfDepends (version, dependencyMap) {
@@ -52,9 +59,11 @@ module.exports = {
       dependencyMap.xss,
       dependencyMap.xtst,
       dependencyMap.xdgUtils
-    ].concat(getGConfDepends(version, dependencyMap))
+    ].concat(getATSPIDepends(version, dependencyMap))
+      .concat(getGConfDepends(version, dependencyMap))
       .concat(getUUIDDepends(version, dependencyMap))
   },
+  getATSPIDepends: getATSPIDepends,
   getGConfDepends: getGConfDepends,
   getGTKDepends: getGTKDepends,
   getTrashDepends: getTrashDepends,
