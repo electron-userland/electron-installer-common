@@ -2,7 +2,15 @@
 
 ## [Unreleased]
 
-[Unreleased]: https://github.com/electron-userland/electron-installer-common/compare/v0.7.0...master
+[Unreleased]: https://github.com/electron-userland/electron-installer-common/compare/v0.7.1...master
+
+## [0.7.1] - 2019-06-09
+
+[0.7.1]: https://github.com/electron-userland/electron-installer-common/compare/v0.7.0...v0.7.1
+
+### Added
+
+* ATSPI dependency for Electron >= 5 (#31)
 
 ## [0.7.0] - 2019-05-24
 
