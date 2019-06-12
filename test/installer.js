@@ -173,7 +173,9 @@ test('movePackage', t => {
     await fs.ensureDir(destDir)
     await fs.outputFile(path.join(dir.path, 'test.pkg'), 'hello')
     await installer.movePackage()
-    await util.assertPathExists(t, path.join(destDir, 'test_foo.pkg'))
+    const expectedPackagePath = path.join(destDir, 'test_foo.pkg')
+    t.deepEqual(installer.options.packagePaths, [expectedPackagePath])
+    await util.assertPathExists(t, expectedPackagePath)
   })
 })
 
