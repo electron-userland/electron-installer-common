@@ -210,17 +210,21 @@ class ElectronInstaller {
 
   /**
    * Move the package to the specified destination.
+   *
+   * Also adds `packagePaths` to `options`, which is an `Array` of the absolute paths to the
+   * moved packages.
    */
   async movePackage () {
     debug('Moving package to destination')
 
     return error.wrapError('moving package files', async () => {
       const files = await glob(this.packagePattern)
-      return Promise.all(files.map(async file => {
+      this.options.packagePaths = await Promise.all(files.map(async file => {
         const renameTemplate = this.options.rename(this.options.dest, path.basename(file))
         const dest = _.template(renameTemplate)(this.options)
         debug(`Moving file ${file} to ${dest}`)
-        return fs.move(file, dest, { clobber: true })
+        await fs.move(file, dest, { clobber: true })
+        return dest
       }))
     })
   }
