@@ -2,11 +2,15 @@
 
 ## [Unreleased]
 
-[Unreleased]: https://github.com/electron-userland/electron-installer-common/compare/v0.7.1...master
+[Unreleased]: https://github.com/electron-userland/electron-installer-common/compare/v0.7.2...master
+
+## [0.7.2] - 2019-06-12
+
+[0.7.2]: https://github.com/electron-userland/electron-installer-common/compare/v0.7.1...v0.7.2
 
 ### Added
 
-* Add `packagePaths` to `options` when calling `ElectronInstaller.movePackage()`
+* Add `packagePaths` to `options` when calling `ElectronInstaller.movePackage()` (#36)
 
 ## [0.7.1] - 2019-06-09
 
