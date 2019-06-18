@@ -16,7 +16,7 @@ const dependencyMap = {
   gconf: 'libgconf2-4',
   uuid: 'libuuid1',
   gvfs: 'gvfs-bin',
-  kdeCliTools: 'kde-cli-tools',
+  kdeCliTools: ['kde-cli-tools', 'kde-cli-tools5'],
   kdeRuntime: 'kde-runtime',
   trashCli: 'trash-cli',
   glib2: 'libglib2.0-bin'
@@ -49,21 +49,27 @@ test('getGTKDepends: returns GTK3 as of 2.0', t => {
 test('getTrashDepends: only depends on gvfs-bin before 1.4.1', t => {
   const trashDepends = dependencies.getTrashDepends('v1.3.0', dependencyMap)
   t.true(trashDepends.includes(dependencyMap.gvfs))
-  t.false(trashDepends.includes(dependencyMap.kdeCliTools))
+  for (const packageName of dependencyMap.kdeCliTools) {
+    t.false(trashDepends.includes(packageName))
+  }
   t.false(trashDepends.includes(dependencyMap.glib2))
 })
 
 test('getTrashDepends: depends on KDE tools between 1.4.1 and 1.7.1', t => {
   const trashDepends = dependencies.getTrashDepends('v1.6.0', dependencyMap)
   t.true(trashDepends.includes(dependencyMap.gvfs))
-  t.true(trashDepends.includes(dependencyMap.kdeCliTools))
+  for (const packageName of dependencyMap.kdeCliTools) {
+    t.true(trashDepends.includes(packageName))
+  }
   t.false(trashDepends.includes(dependencyMap.glib2))
 })
 
 test('getTrashDepends: depends on glib starting with 1.7.2', t => {
   const trashDepends = dependencies.getTrashDepends('v1.8.2', dependencyMap)
   t.true(trashDepends.includes(dependencyMap.gvfs))
-  t.true(trashDepends.includes(dependencyMap.kdeCliTools))
+  for (const packageName of dependencyMap.kdeCliTools) {
+    t.true(trashDepends.includes(packageName))
+  }
   t.true(trashDepends.includes(dependencyMap.glib2))
 })
 
