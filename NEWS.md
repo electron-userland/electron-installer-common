@@ -2,7 +2,15 @@
 
 ## [Unreleased]
 
-[Unreleased]: https://github.com/electron-userland/electron-installer-common/compare/v0.7.2...master
+[Unreleased]: https://github.com/electron-userland/electron-installer-common/compare/v0.7.3...master
+
+## [0.7.3] - 2019-06-19
+
+[0.7.3]: https://github.com/electron-userland/electron-installer-common/compare/v0.7.2...v0.7.3
+
+### Fixed
+
+* Allow multiple package names for trash dependencies (#37)
 
 ## [0.7.2] - 2019-06-12
 
