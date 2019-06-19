@@ -34,9 +34,9 @@ function getTrashDepends (version, dependencyMap) {
   if (semver.lt(version, '1.4.1')) {
     return [dependencyMap.gvfs]
   } else if (semver.lt(version, '1.7.2')) {
-    return [dependencyMap.kdeCliTools, dependencyMap.kdeRuntime, dependencyMap.trashCli, dependencyMap.gvfs]
+    return _.flatten([dependencyMap.kdeCliTools, dependencyMap.kdeRuntime, dependencyMap.trashCli, dependencyMap.gvfs])
   } else {
-    return [dependencyMap.kdeCliTools, dependencyMap.kdeRuntime, dependencyMap.trashCli, dependencyMap.glib2, dependencyMap.gvfs]
+    return _.flatten([dependencyMap.kdeCliTools, dependencyMap.kdeRuntime, dependencyMap.trashCli, dependencyMap.glib2, dependencyMap.gvfs])
   }
 }
 
