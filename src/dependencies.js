@@ -47,6 +47,10 @@ function getUUIDDepends (version, dependencyMap) {
   return semver.gte(version, '4.0.0-beta.1') ? getAlternativeDepends(dependencyMap.uuid) : []
 }
 
+/**
+ * Returns an array with 1 package (no alternatives available) or an Array with an 'or-ed' list
+ * of packages if there are multiple alternatives available.
+ */
 function getAlternativeDepends(dependencyMapPackage) {
   if (dependencyMapPackage.length == 1) {
     return [dependencyMapPackage[0]];
