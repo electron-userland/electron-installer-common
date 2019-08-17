@@ -44,7 +44,17 @@ function getTrashDepends (version, dependencyMap) {
  * Determine whether libuuid is necessary, given the Electron version.
  */
 function getUUIDDepends (version, dependencyMap) {
-  return semver.gte(version, '4.0.0-beta.1') ? [dependencyMap.uuid] : []
+  return semver.gte(version, '4.0.0-beta.1') ? getAlternativeDepends(dependencyMap, 'uuid') : []
+}
+
+function getAlternativeDepends(dependencyMap, package) {
+  var depends = dependencyMap[package];
+
+  if (depends.length == 1) {
+    return [depends[0]];
+  } else {
+    return [`(${depends.join(' or ')})`]
+  }
 }
 
 module.exports = {
@@ -54,10 +64,10 @@ module.exports = {
   getDepends: function getDepends (version, dependencyMap) {
     return [
       getGTKDepends(version, dependencyMap),
-      dependencyMap.notify,
-      dependencyMap.nss,
+      getAlternativeDepends(dependencyMap, 'notify'),
+      getAlternativeDepends(dependencyMap, 'nss'),
       dependencyMap.xss,
-      dependencyMap.xtst,
+      getAlternativeDepends(dependencyMap, 'xtst'),
       dependencyMap.xdgUtils
     ].concat(getATSPIDepends(version, dependencyMap))
       .concat(getGConfDepends(version, dependencyMap))
