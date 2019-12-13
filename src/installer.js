@@ -52,7 +52,15 @@ class ElectronInstaller {
   }
 
   get sourceDir () {
-    return this.options.src
+    if (this.options) {
+      return this.options.src
+    } else if (this.userSupplied.src) {
+      return this.userSupplied.src
+    } else if (this.userSupplied.options) {
+      return this.userSupplied.options.src
+    }
+
+    return undefined
   }
 
   /**

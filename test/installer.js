@@ -7,6 +7,17 @@ const sinon = require('sinon')
 const test = require('ava')
 const util = require('./_util')
 
+test('sourceDir usable before options are set', t => {
+  const src = path.join(__dirname, 'fixtures', 'app-with-asar')
+  const installer = new ElectronInstaller({ name: 'copyapp', src })
+  t.is(src, installer.sourceDir)
+  delete installer.userSupplied.src
+  installer.userSupplied.options = { src }
+  t.is(src, installer.sourceDir)
+  delete installer.userSupplied.options
+  t.is(undefined, installer.sourceDir)
+})
+
 test('copyApplication', async t => {
   const installer = new ElectronInstaller({ name: 'copyapp', src: path.join(__dirname, 'fixtures', 'app-with-asar') })
   installer.generateOptions()
