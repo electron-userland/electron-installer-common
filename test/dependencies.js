@@ -81,7 +81,7 @@ test('getUUIDDepends: returns uuid as of 4.0', t => {
   t.is(dependencies.getUUIDDepends('4.0.0', dependencyMap)[0], dependencyMap.uuid)
 })
 
-test('getUUIDDepends: returns nothing as of 8.0-beta.1', t => {
+test('getUUIDDepends: returns nothing as of 8.0.0-beta.1', t => {
   t.is(dependencies.getUUIDDepends('8.0.0', dependencyMap).length, 0)
 })
 
