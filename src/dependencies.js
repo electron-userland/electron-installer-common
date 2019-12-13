@@ -44,7 +44,7 @@ function getTrashDepends (version, dependencyMap) {
  * Determine whether libuuid is necessary, given the Electron version.
  */
 function getUUIDDepends (version, dependencyMap) {
-  return semver.gte(version, '4.0.0-beta.1') ? [dependencyMap.uuid] : []
+  return semver.satisfies(version, '>=4.0.0-beta.1 <8.0.0-beta.1') ? [dependencyMap.uuid] : []
 }
 
 module.exports = {
