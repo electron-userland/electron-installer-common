@@ -11,7 +11,7 @@ const glob = promisify(require('glob'))
 const path = require('path')
 const template = require('./template')
 const tmp = require('tmp-promise')
-const updateSandboxHelperPermissions = require('./sandboxhelper')
+const { updateSandboxHelperPermissions } = require('./sandboxhelper')
 
 tmp.setGracefulCleanup()
 

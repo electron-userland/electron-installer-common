@@ -12,9 +12,10 @@ const replaceScopeName = require('./replacescopename')
 const sanitizeName = require('./sanitizename')
 const spawn = require('./spawn')
 const template = require('./template')
-const updateSandboxHelperPermissions = require('./sandboxhelper')
+const sandboxHelper = require('./sandboxhelper')
 
 module.exports = {
+  ...sandboxHelper,
   createDesktopFile: desktop.createDesktopFile,
   createTemplatedFile: template.createTemplatedFile,
   ElectronInstaller,
@@ -33,6 +34,5 @@ module.exports = {
   replaceScopeName,
   sanitizeName,
   spawn,
-  updateSandboxHelperPermissions,
   wrapError: error.wrapError
 }
