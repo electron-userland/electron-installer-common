@@ -2,7 +2,24 @@
 
 ## [Unreleased]
 
-[Unreleased]: https://github.com/electron-userland/electron-installer-common/compare/v0.7.3...master
+[Unreleased]: https://github.com/electron-userland/electron-installer-common/compare/v0.8.0...master
+
+## [0.8.0] - 2019-12-14
+
+[0.8.0]: https://github.com/electron-userland/electron-installer-common/compare/v0.7.3...v0.8.0
+
+### Added
+
+* `hasSandboxHelper` (#47)
+
+### Fixed
+
+* dependencies: remove UUID dependency for Electron >=8.0.0-beta.1 (#45)
+* installer: allow sourceDir to be used before options is set (#46)
+
+### Changed
+
+* Require Node >= 8.3.0 (#47)
 
 ## [0.7.3] - 2019-06-19
 
