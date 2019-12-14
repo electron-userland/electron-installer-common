@@ -1,6 +1,6 @@
 # `electron-installer-common`
 
-[![Build Status](https://travis-ci.com/electron-userland/electron-installer-common.svg?branch=master)](https://travis-ci.com/electron-userland/electron-installer-common)
+[![Build Status](https://github.com/electron-userland/electron-installer-common/workflows/CI/badge.svg)](https://github.com/electron-userland/electron-installer-common/actions?query=workflow:CI)
 [![codecov](https://codecov.io/gh/electron-userland/electron-installer-common/branch/master/graph/badge.svg)](https://codecov.io/gh/electron-userland/electron-installer-common)
 
 `electron-installer-common` provides common functionality for creating distributable Electron apps.
