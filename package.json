@@ -7,7 +7,7 @@
   "main": "src/index.js",
   "scripts": {
     "ava": "ava",
-    "ci": "npm run lint && npm run coverage",
+    "codecov": "nyc report --reporter=text-lcov | codecov --disable=gcov --pipe --env=CI_OS,NODE_VERSION",
     "coverage": "nyc ava",
     "lint": "eslint .",
     "test": "npm run lint && ava"
