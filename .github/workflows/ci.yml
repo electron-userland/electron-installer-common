@@ -35,7 +35,7 @@ jobs:
             ${{ runner.OS }}-
       - name: Install
         run: |
-          npm install
+          npm install --engine-strict
           npm update
       - name: Lint
         run: npm run lint
