@@ -2,7 +2,15 @@
 
 ## [Unreleased]
 
-[Unreleased]: https://github.com/electron-userland/electron-installer-common/compare/v0.8.0...master
+[Unreleased]: https://github.com/electron-userland/electron-installer-common/compare/v0.9.0...master
+
+## [0.9.0] - 2020-01-16
+
+[0.9.0]: https://github.com/electron-userland/electron-installer-common/compare/v0.8.0...v0.9.0
+
+### Changed
+
+* Require Node >= 10.0.0 (#52)
 
 ## [0.8.0] - 2019-12-14
 
