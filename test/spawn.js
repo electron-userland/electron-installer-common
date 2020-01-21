@@ -14,5 +14,5 @@ test('throws an error when it cannot find an executable', t => {
 })
 
 test('updateErrorCallback modifies the exception', t => {
-  return t.throwsAsync(spawn('does-not-exist', [], null, err => { err.message = 'I am an error' }), { message: /I am an error/ })
+  return t.throwsAsync(spawn('does-not-exist', [], { updateErrorCallback: err => { err.message = 'I am an error' } }), { message: /I am an error/ })
 })
