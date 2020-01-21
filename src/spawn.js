@@ -12,20 +12,23 @@ const spawn = require('cross-spawn')
  */
 module.exports = async function (cmd, args, options = {}) {
   const { logger, updateErrorCallback, ...spawnOptions } = options
-  /* istanbul ignore if */
   if (logger) logger(`Executing command ${cmd} ${args.join(' ')}`)
 
   return new Promise((resolve, reject) => {
     let stdout = ''
     let stderr = ''
     const process = spawn(cmd, args, spawnOptions)
-    process.stdout.on('data', data => {
-      stdout += data.toString()
-    })
-    process.stderr.on('data', data => {
-      /* istanbul ignore next */
-      stderr += data.toString()
-    })
+    if (process.stdout) {
+      process.stdout.on('data', data => {
+        stdout += data.toString()
+      })
+    }
+    if (process.stderr) {
+      process.stderr.on('data', data => {
+        /* istanbul ignore next */
+        stderr += data.toString()
+      })
+    }
     process.on('close', code => {
       if (code === 0) {
         resolve(stdout)

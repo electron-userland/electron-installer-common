@@ -5,8 +5,14 @@ const test = require('ava')
 
 test('returns stdout', async t => {
   const dir = process.platform === 'darwin' ? 'ls' : 'dir'
-  const output = await spawn(dir, [__dirname], log => null)
+  const output = await spawn(dir, [__dirname], { logger: log => null })
   t.regex(output, /spawn/)
+})
+
+test('returns empty string if stdio is ignored', async t => {
+  const dir = process.platform === 'darwin' ? 'ls' : 'dir'
+  const output = await spawn(dir, [__dirname], { stdio: 'ignore' })
+  t.is(output, '')
 })
 
 test('throws an error when it cannot find an executable', t => {
