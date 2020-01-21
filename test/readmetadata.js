@@ -15,5 +15,5 @@ test('readMetadata for app without asar', async t => {
 })
 
 test('readMetadata for invalid app', t => {
-  return t.throwsAsync(readMetadata({ src: path.join(__dirname, 'fixtures'), logger: log => log }), /Could not find, read, or parse/)
+  return t.throwsAsync(readMetadata({ src: path.join(__dirname, 'fixtures'), logger: log => log }), { message: /Could not find, read, or parse/ })
 })

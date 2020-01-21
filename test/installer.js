@@ -71,7 +71,7 @@ test('copyLinuxIcon with a nonexistent source icon', async t => {
   })
   installer.generateOptions()
   await installer.createStagingDir()
-  await t.throwsAsync(installer.copyLinuxIcons(), /The icon ".*" does not exist$/)
+  await t.throwsAsync(installer.copyLinuxIcons(), { message: /The icon ".*" does not exist$/ })
 })
 
 test('copyLinuxIcons does nothing if icon option not specified', async t => {
@@ -108,7 +108,7 @@ test('createBinarySymlink does not create symlink when bin does not exist', asyn
   const installer = new ElectronInstaller(options)
   installer.generateOptions()
   await installer.createStagingDir()
-  await t.throwsAsync(installer.createBinarySymlink(), /could not find the Electron app binary/)
+  await t.throwsAsync(installer.createBinarySymlink(), { message: /could not find the Electron app binary/ })
 })
 
 test('createContents', async t => {

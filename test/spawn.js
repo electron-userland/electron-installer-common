@@ -10,9 +10,9 @@ test('returns stdout', async t => {
 })
 
 test('throws an error when it cannot find an executable', t => {
-  return t.throwsAsync(spawn('does-not-exist', []), /^Error executing command/)
+  return t.throwsAsync(spawn('does-not-exist', []), { message: /^Error executing command/ })
 })
 
 test('updateErrorCallback modifies the exception', t => {
-  return t.throwsAsync(spawn('does-not-exist', [], null, err => { err.message = 'I am an error' }), /I am an error/)
+  return t.throwsAsync(spawn('does-not-exist', [], null, err => { err.message = 'I am an error' }), { message: /I am an error/ })
 })
