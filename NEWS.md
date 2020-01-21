@@ -2,7 +2,16 @@
 
 ## [Unreleased]
 
-[Unreleased]: https://github.com/electron-userland/electron-installer-common/compare/v0.9.0...master
+[Unreleased]: https://github.com/electron-userland/electron-installer-common/compare/v0.10.0...master
+
+## [0.10.0] - 2020-01-21
+
+[0.10.0]: https://github.com/electron-userland/electron-installer-common/compare/v0.9.0...v0.10.0
+
+### Changed
+
+* The function signature for `spawn` is compatible with the one in `child_process`, with the
+  addition of `logger` and `updateErrorCallback` (#62)
 
 ## [0.9.0] - 2020-01-16
 
