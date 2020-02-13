@@ -10,7 +10,7 @@ const readElectronVersion = require('./readelectronversion')
 const readMetadata = require('./readmetadata')
 const replaceScopeName = require('./replacescopename')
 const sanitizeName = require('./sanitizename')
-const spawn = require('./spawn')
+const { spawn } = require('@malept/cross-spawn-promise')
 const template = require('./template')
 const sandboxHelper = require('./sandboxhelper')
 
