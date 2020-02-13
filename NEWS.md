@@ -2,7 +2,15 @@
 
 ## [Unreleased]
 
-[Unreleased]: https://github.com/electron-userland/electron-installer-common/compare/v0.10.0...master
+[Unreleased]: https://github.com/electron-userland/electron-installer-common/compare/v0.10.1...master
+
+## [0.10.1] - 2020-02-13
+
+[0.10.1]: https://github.com/electron-userland/electron-installer-common/compare/v0.10.0...v0.10.1
+
+### Deprecated
+
+* `spawn` export, use `@malept/cross-spawn-promise` directly (#63)
 
 ## [0.10.0] - 2020-01-21
 
