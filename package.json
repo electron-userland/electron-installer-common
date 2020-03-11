@@ -58,5 +58,8 @@
       "plugin:promise/recommended",
       "standard"
     ]
+  },
+  "funding": {
+    "url": "https://github.com/electron-userland/electron-installer-common?sponsor=1"
   }
 }
