@@ -28,7 +28,7 @@ async function readPackageJSONFromUnpackedApp (resourcesDir, options) {
 
 /**
  * Read `package.json` either from `$RESOURCES_DIR/app.asar` (if the app is packaged)
- * or from `$RESOURCES_DIR/app/package.json` (if it is not). `RESOURCES_DIR` is either
+ * or from `$RESOURCES_DIR/app/package.json` (if it is not). `$RESOURCES_DIR` is either
  * `AppName.app/Contents/Resources` on macOS, or `resources` on other platforms.
  *
  * Options used:
