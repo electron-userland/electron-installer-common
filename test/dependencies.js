@@ -6,6 +6,9 @@ const test = require('ava')
 
 const dependencyMap = {
   atspi: 'libatspi2.0-0',
+  drm: 'libdrm',
+  gbm: 'mesa-libgbm',
+  xcbDri3: 'libxcb-dri3-0',
   notify: 'libnotify4',
   nss: 'libnss3',
   xss: 'libxss1',
@@ -24,6 +27,14 @@ const dependencyMap = {
 
 test('getATSPIDepends: returns atspi as of 5.0', t => {
   t.is(dependencies.getATSPIDepends('5.0.0', dependencyMap)[0], dependencyMap.atspi)
+})
+
+test('getDRMDepends: returns drm as of 9.0', t => {
+  t.is(dependencies.getDRMDepends('9.0.0', dependencyMap)[0], dependencyMap.drm)
+})
+
+test('getGBMDepends: returns gbm as of 9.0', t => {
+  t.is(dependencies.getGBMDepends('9.0.0', dependencyMap)[0], dependencyMap.gbm)
 })
 
 test('getDepends returns the expected dependency', t => {
@@ -83,6 +94,10 @@ test('getUUIDDepends: returns uuid as of 4.0', t => {
 
 test('getUUIDDepends: returns nothing as of 8.0.0-beta.1', t => {
   t.is(dependencies.getUUIDDepends('8.0.0', dependencyMap).length, 0)
+})
+
+test('getXcbDri3Depends: returns gbm as of 9.0', t => {
+  t.is(dependencies.getXcbDri3Depends('9.0.0', dependencyMap)[0], dependencyMap.xcbDri3)
 })
 
 function testMergeUserSpecified (t, dataPath) {
