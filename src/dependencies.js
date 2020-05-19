@@ -11,6 +11,20 @@ function getATSPIDepends (version, dependencyMap) {
 }
 
 /**
+ * Determine whether DRM is a necessary dependency, given the Electron version.
+ */
+function getDRMDepends (version, dependencyMap) {
+  return semver.gte(version, '9.0.0-beta.1') ? [dependencyMap.drm] : []
+}
+
+/**
+ * Determine whether GBM is a necessary dependency, given the Electron version.
+ */
+function getGBMDepends (version, dependencyMap) {
+  return semver.gte(version, '9.0.0-beta.1') ? [dependencyMap.gbm] : []
+}
+
+/**
  * Determine whether GConf is a necessary dependency, given the Electron version.
  */
 function getGConfDepends (version, dependencyMap) {
@@ -47,6 +61,13 @@ function getUUIDDepends (version, dependencyMap) {
   return semver.satisfies(version, '>=4.0.0-beta.1 <8.0.0-beta.1') ? [dependencyMap.uuid] : []
 }
 
+/**
+ * Determine whether dri3 extension for X C Binding is a necessary dependency, given the Electron version.
+ */
+function getXcbDri3Depends (version, dependencyMap) {
+  return semver.gte(version, '9.0.0-beta.1') ? [dependencyMap.xcbDri3] : []
+}
+
 module.exports = {
   /**
    * Determine the default dependencies for an Electron application.
@@ -62,12 +83,18 @@ module.exports = {
     ].concat(getATSPIDepends(version, dependencyMap))
       .concat(getGConfDepends(version, dependencyMap))
       .concat(getUUIDDepends(version, dependencyMap))
+      .concat(getDRMDepends(version, dependencyMap))
+      .concat(getGBMDepends(version, dependencyMap))
+      .concat(getXcbDri3Depends(version, dependencyMap))
   },
   getATSPIDepends: getATSPIDepends,
+  getDRMDepends: getDRMDepends,
+  getGBMDepends: getGBMDepends,
   getGConfDepends: getGConfDepends,
   getGTKDepends: getGTKDepends,
   getTrashDepends: getTrashDepends,
   getUUIDDepends: getUUIDDepends,
+  getXcbDri3Depends: getXcbDri3Depends,
 
   /**
    * Merge the user specified dependencies (from either the API or the CLI) with the respective
