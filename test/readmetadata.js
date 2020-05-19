@@ -14,6 +14,20 @@ test('readMetadata for app without asar', async t => {
   t.regex(packageJSON.description, /without asar/)
 })
 
-test('readMetadata for invalid app', t => {
-  return t.throwsAsync(readMetadata({ src: path.join(__dirname, 'fixtures'), logger: log => log }), { message: /Could not find, read, or parse/ })
+test('readMetadata for macOS app with asar', async t => {
+  const packageJSON = await readMetadata({ src: path.join(__dirname, 'fixtures', 'macOS-app-with-asar'), logger: log => log })
+  t.regex(packageJSON.description, /with asar/)
+})
+
+test('readMetadata for macOS app without asar', async t => {
+  const packageJSON = await readMetadata({ src: path.join(__dirname, 'fixtures', 'macOS-app-without-asar'), logger: log => log })
+  t.regex(packageJSON.description, /without asar/)
+})
+
+test('readMetadata for app without a resources directory', t => {
+  return t.throwsAsync(readMetadata({ src: path.join(__dirname, 'fixtures'), logger: log => log }), { message: /Could not determine resources directory/ })
+})
+
+test('readMetadata for app with a bad package.json', t => {
+  return t.throwsAsync(readMetadata({ src: path.join(__dirname, 'fixtures', 'app-with-bad-package-json'), logger: log => log }), { message: /Could not find, read, or parse/ })
 })
