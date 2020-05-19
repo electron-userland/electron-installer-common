@@ -87,7 +87,7 @@ class ElectronInstaller {
    */
   async copyHicolorIcons () {
     return Promise.all(_.map(this.options.icon, (iconSrc, resolution) => {
-      const iconExt = resolution === 'scalable' || resolution === 'symbolic' ? 'svg' : 'png'
+      const iconExt = ['scalable', 'symbolic'].includes(resolution) ? 'svg' : 'png'
       const iconName = resolution === 'symbolic' ? `${this.appIdentifier}-symbolic` : this.appIdentifier
       const iconFile = path.join(this.stagingDir, this.baseAppDir, 'share', 'icons', 'hicolor', resolution, 'apps', `${iconName}.${iconExt}`)
 
