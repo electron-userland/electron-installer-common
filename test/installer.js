@@ -43,6 +43,7 @@ test('copyLinuxIcons for hicolor icons', async t => {
     name: 'icontest',
     icon: {
       scalable: img,
+      symbolic: img,
       '48x48': img
     }
   })
@@ -51,6 +52,7 @@ test('copyLinuxIcons for hicolor icons', async t => {
   await installer.copyLinuxIcons()
   await util.assertPathExists(t, path.join(installer.stagingDir, hicolorDir, '48x48', 'apps', 'icontest.png'))
   await util.assertPathExists(t, path.join(installer.stagingDir, hicolorDir, 'scalable', 'apps', 'icontest.svg'))
+  await util.assertPathExists(t, path.join(installer.stagingDir, hicolorDir, 'symbolic', 'apps', 'icontest-symbolic.svg'))
 })
 
 test('copyLinuxIcons for pixmap', async t => {
