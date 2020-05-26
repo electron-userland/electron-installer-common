@@ -1,4 +1,5 @@
 import { CopyFilterAsync, CopyFilterSync } from 'fs-extra';
+export { spawn } from '@malept/cross-spawn-promise';
 
 export type Configuration = {
   arch?: string;
@@ -20,7 +21,7 @@ export type DependencyType = 'atspi' | 'drm' | 'gbm' | 'gconf' | 'glib2' | 'gtk2
 export type DependencyMap = Record<DependencyType, string>;
 
 export type ReadMetadataOptions = {
-  logger: (msg) => void;
+  logger: (msg: any) => void;
   src: string;
 };
 
@@ -74,7 +75,6 @@ export function mergeUserSpecified(data: Record<string, unknown>, dependencyKey:
 export function readElectronVersion(appDir: string): Promise<string>;
 export function readMetadata(options: ReadMetadataOptions): Promise<PackageJSON>;
 export function replaceScopeName(name?: string, divider?: string): string;
-export function sanitizeName(name: string, allowedCharacterRange: string, replacement?: string);
-export function spawn();
+export function sanitizeName(name: string, allowedCharacterRange: string, replacement?: string): string;
 export function updateSandboxHelperPermissions(appDir: string): Promise<void>;
 export function wrapError(message: string, wrappedFunction?: () => Promise<void>): Promise<void> | ((err: Error) => void);
