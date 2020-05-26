@@ -8,11 +8,11 @@ const path = require('path')
 /**
  * Fill in a template with the hash of data.
  */
-async function generateTemplate (file, data) {
-  debug(`Generating template from ${file}`)
+async function generateTemplate (templatePath, data) {
+  debug(`Generating template from ${templatePath}`)
 
-  const result = _.template(await fs.readFile(file))(data)
-  debug(`Generated template from ${file}\n${result}`)
+  const result = _.template(await fs.readFile(templatePath))(data)
+  debug(`Generated template from ${templatePath}\n${result}`)
   return result
 }
 
