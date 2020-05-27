@@ -21,7 +21,8 @@ export type DependencyType = 'atspi' | 'drm' | 'gbm' | 'gconf' | 'glib2' | 'gtk2
 export type DependencyMap = Record<DependencyType, string>;
 
 export type ReadMetadataOptions = {
-  logger: (msg: any) => void;
+
+  logger: (msg: string) => void;
   src: string;
 };
 
