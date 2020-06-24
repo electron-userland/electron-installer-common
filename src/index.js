@@ -15,6 +15,7 @@ const template = require('./template')
 const sandboxHelper = require('./sandboxhelper')
 
 module.exports = {
+  ...dependencies,
   ...sandboxHelper,
   createDesktopFile: desktop.createDesktopFile,
   createTemplatedFile: template.createTemplatedFile,
@@ -22,13 +23,7 @@ module.exports = {
   errorMessage: error.errorMessage,
   generateTemplate: template.generateTemplate,
   getDefaultsFromPackageJSON,
-  getDepends: dependencies.getDepends,
-  getGConfDepends: dependencies.getGConfDepends,
-  getGTKDepends: dependencies.getGTKDepends,
   getHomePage,
-  getTrashDepends: dependencies.getTrashDepends,
-  getUUIDDepends: dependencies.getUUIDDepends,
-  mergeUserSpecified: dependencies.mergeUserSpecified,
   readElectronVersion,
   readMetadata,
   replaceScopeName,
