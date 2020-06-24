@@ -81,20 +81,20 @@ module.exports = {
       dependencyMap.xtst,
       dependencyMap.xdgUtils
     ].concat(getATSPIDepends(version, dependencyMap))
-      .concat(getGConfDepends(version, dependencyMap))
-      .concat(getUUIDDepends(version, dependencyMap))
       .concat(getDRMDepends(version, dependencyMap))
       .concat(getGBMDepends(version, dependencyMap))
+      .concat(getGConfDepends(version, dependencyMap))
+      .concat(getUUIDDepends(version, dependencyMap))
       .concat(getXcbDri3Depends(version, dependencyMap))
   },
-  getATSPIDepends: getATSPIDepends,
-  getDRMDepends: getDRMDepends,
-  getGBMDepends: getGBMDepends,
-  getGConfDepends: getGConfDepends,
-  getGTKDepends: getGTKDepends,
-  getTrashDepends: getTrashDepends,
-  getUUIDDepends: getUUIDDepends,
-  getXcbDri3Depends: getXcbDri3Depends,
+  getATSPIDepends,
+  getDRMDepends,
+  getGBMDepends,
+  getGConfDepends,
+  getGTKDepends,
+  getTrashDepends,
+  getUUIDDepends,
+  getXcbDri3Depends,
 
   /**
    * Merge the user specified dependencies (from either the API or the CLI) with the respective
