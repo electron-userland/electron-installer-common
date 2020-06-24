@@ -1,6 +1,8 @@
 import { CopyFilterAsync, CopyFilterSync } from 'fs-extra';
 export { spawn } from '@malept/cross-spawn-promise';
 
+export type CatchableFunction = (err: Error) => void;
+
 export type Configuration = {
   arch?: string;
   bin?: string;
@@ -82,4 +84,5 @@ export function readMetadata(options: ReadMetadataOptions): Promise<PackageJSON>
 export function replaceScopeName(name?: string, divider?: string): string;
 export function sanitizeName(name: string, allowedCharacterRange: string, replacement?: string): string;
 export function updateSandboxHelperPermissions(appDir: string): Promise<void>;
-export function wrapError(message: string, wrappedFunction?: () => Promise<void>): Promise<void> | ((err: Error) => void);
+export function wrapError(message: string): CatchableFunction;
+export function wrapError(message: string, wrappedFunction: () => Promise<void>): Promise<void>;
