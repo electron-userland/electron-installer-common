@@ -65,12 +65,16 @@ export function createDesktopFile(templatePath: string, dir: string, baseName: s
 export function createTemplatedFile(templatePath: string, dest: string, options: Record<string, unknown>, filePermissions?: number): Promise<void>;
 export function errorMessage(message: string, err: Error): string;
 export function generateTemplate(templatePath: string, data: Record<string, unknown>): Promise<string>;
+export function getATSPIDepends(version: string, dependencyMap: DependencyMap): string[];
+export function getDRMDepends(version: string, dependencyMap: DependencyMap): string[];
 export function getDefaultsFromPackageJSON(pkg: PackageJSON, fallbacks?: Pick<Configuration, 'revision'>): Configuration;
 export function getDepends(version: string, dependencyMap: DependencyMap): string[];
+export function getGBMDepends(version: string, dependencyMap: DependencyMap): string[];
 export function getGConfDepends(version: string, dependencyMap: DependencyMap): string[];
 export function getGTKDepends(version: string, dependencyMap: DependencyMap): string[];
 export function getTrashDepends(version: string, dependencyMap: DependencyMap): string[];
 export function getUUIDDepends(version: string, dependencyMap: DependencyMap): string[];
+export function getXcbDri3Depends(version: string, dependencyMap: DependencyMap): string[];
 export function hasSandboxHelper(appDir: string): boolean;
 export function mergeUserSpecified(data: Record<string, unknown>, dependencyKey: string, defaults: Record<string, unknown>): Record<string, unknown>;
 export function readElectronVersion(appDir: string): Promise<string>;
