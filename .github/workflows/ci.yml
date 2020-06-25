@@ -39,6 +39,8 @@ jobs:
           npm update
       - name: Lint
         run: npm run lint
+      - name: TypeScript definition linting
+        run: npm run tsd
       - name: Test
         run: npm run coverage
       - name: Codecov

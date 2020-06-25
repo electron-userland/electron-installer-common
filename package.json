@@ -5,12 +5,16 @@
   "author": "Mark Lee",
   "license": "Apache-2.0",
   "main": "src/index.js",
+  "types": "src/index.d.ts",
   "scripts": {
     "ava": "ava",
     "codecov": "nyc report --reporter=text-lcov | codecov --disable=gcov --pipe --env=CI_OS,NODE_VERSION",
     "coverage": "nyc ava",
-    "lint": "eslint .",
-    "test": "npm run lint && ava"
+    "lint": "npm run lint:js && npm run lint:ts",
+    "lint:js": "eslint .",
+    "lint:ts": "eslint --config .eslintrc.typescript.js --ext .ts .",
+    "test": "npm run lint && tsd && ava",
+    "tsd": "tsd"
   },
   "repository": "electron-userland/electron-installer-common",
   "keywords": [
@@ -19,9 +23,12 @@
   ],
   "files": [
     "NEWS.md",
-    "src"
+    "src",
+    "src/index.d.ts"
   ],
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^3.0.0",
+    "@typescript-eslint/parser": "^3.0.0",
     "ava": "^3.0.0",
     "codecov": "^3.5.0",
     "eslint": "^7.1.0",
@@ -32,7 +39,9 @@
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
     "nyc": "^15.0.0",
-    "sinon": "^9.0.0"
+    "sinon": "^9.0.0",
+    "tsd": "^0.11.0",
+    "typescript": "^3.9.3"
   },
   "dependencies": {
     "@malept/cross-spawn-promise": "^1.0.0",
@@ -61,5 +70,11 @@
   },
   "funding": {
     "url": "https://github.com/electron-userland/electron-installer-common?sponsor=1"
+  },
+  "tsd": {
+    "directory": "test"
+  },
+  "optionalDependencies": {
+    "@types/fs-extra": "^9.0.1"
   }
 }
