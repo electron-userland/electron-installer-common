@@ -2,7 +2,22 @@
 
 ## [Unreleased]
 
-[Unreleased]: https://github.com/electron-userland/electron-installer-common/compare/v0.10.1...master
+[Unreleased]: https://github.com/electron-userland/electron-installer-common/compare/v0.10.2...master
+
+## [0.10.2] - 2020-06-25
+
+[0.10.2]: https://github.com/electron-userland/electron-installer-common/compare/v0.10.1...v0.10.2
+
+### Added
+
+* Support for Electron 9 Linux dependencies (#66)
+* macOS support for `readMetadata` (#67)
+* Install symbolic icons on Linux when provided (#70)
+* TypeScript definition (#71)
+
+### Fixed
+
+* Export all dependencies-related functions (#72)
 
 ## [0.10.1] - 2020-02-13
 
