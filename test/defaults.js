@@ -7,6 +7,7 @@ test('empty package.json', t => {
   t.deepEqual(getDefaultsFromPackageJSON({}), {
     arch: undefined,
     bin: 'electron',
+    binName: 'electron',
     execArguments: [],
     categories: [
       'GNOME',

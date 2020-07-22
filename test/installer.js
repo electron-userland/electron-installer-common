@@ -88,6 +88,7 @@ test('copyLinuxIcons does nothing if icon option not specified', async t => {
 test('createBinarySymlink creates symlink when bin exists', async t => {
   const options = {
     bin: 'app-name',
+    binName: 'start_app',
     logger: log => log,
     name: 'bundled_app',
     src: path.join(__dirname, 'fixtures', 'bundled_app')
@@ -96,13 +97,14 @@ test('createBinarySymlink creates symlink when bin exists', async t => {
   installer.generateOptions()
   await installer.createStagingDir()
   await installer.createBinarySymlink()
-  const stats = await fs.lstat(path.join(installer.stagingDir, installer.baseAppDir, 'bin', 'bundled_app'))
+  const stats = await fs.lstat(path.join(installer.stagingDir, installer.baseAppDir, 'bin', 'start_app'))
   t.true(stats.isSymbolicLink())
 })
 
 test('createBinarySymlink does not create symlink when bin does not exist', async t => {
   const options = {
     bin: 'nonexistent',
+    binName: 'bundled_app',
     logger: log => log,
     name: 'bundled_app',
     src: path.join(__dirname, 'fixtures', 'bundled_app')
