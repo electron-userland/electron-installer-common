@@ -100,6 +100,14 @@ test('getXcbDri3Depends: returns gbm as of 9.0', t => {
   t.is(dependencies.getXcbDri3Depends('9.0.0', dependencyMap)[0], dependencyMap.xcbDri3)
 })
 
+test('getXssDepends: retuns xss pre-10.0', t => {
+  t.is(dependencies.getXssDepends('9.0.0', dependencyMap)[0], dependencyMap.xss)
+})
+
+test('getXssDepends: retuns nothing as of 10.0', t => {
+  t.is(dependencies.getXssDepends('10.0.0', dependencyMap).length, 0)
+})
+
 function testMergeUserSpecified (t, dataPath) {
   const defaults = {
     dependencies: ['lsb', 'libXScrnSaver']

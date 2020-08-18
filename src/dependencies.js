@@ -68,6 +68,13 @@ function getXcbDri3Depends (version, dependencyMap) {
   return semver.gte(version, '9.0.0-beta.1') ? [dependencyMap.xcbDri3] : []
 }
 
+/**
+ * Determine whether libXss is a necessary dependency, given the Electron version.
+ */
+function getXssDepends (version, dependencyMap) {
+  return semver.lt(version, '10.0.0-beta.1') ? [dependencyMap.xss] : []
+}
+
 module.exports = {
   /**
    * Determine the default dependencies for an Electron application.
@@ -77,7 +84,6 @@ module.exports = {
       getGTKDepends(version, dependencyMap),
       dependencyMap.notify,
       dependencyMap.nss,
-      dependencyMap.xss,
       dependencyMap.xtst,
       dependencyMap.xdgUtils
     ].concat(getATSPIDepends(version, dependencyMap))
@@ -86,6 +92,7 @@ module.exports = {
       .concat(getGConfDepends(version, dependencyMap))
       .concat(getUUIDDepends(version, dependencyMap))
       .concat(getXcbDri3Depends(version, dependencyMap))
+      .concat(getXssDepends(version, dependencyMap))
   },
   getATSPIDepends,
   getDRMDepends,
@@ -95,6 +102,7 @@ module.exports = {
   getTrashDepends,
   getUUIDDepends,
   getXcbDri3Depends,
+  getXssDepends,
 
   /**
    * Merge the user specified dependencies (from either the API or the CLI) with the respective
