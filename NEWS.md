@@ -2,7 +2,15 @@
 
 ## [Unreleased]
 
-[Unreleased]: https://github.com/electron-userland/electron-installer-common/compare/v0.10.2...master
+[Unreleased]: https://github.com/electron-userland/electron-installer-common/compare/v0.10.3...master
+
+## [0.10.3] - 2020-08-25
+
+[0.10.3]: https://github.com/electron-userland/electron-installer-common/compare/v0.10.2...v0.10.3
+
+### Added
+
+* Support for Electron 10 Linux dependencies (#80)
 
 ## [0.10.2] - 2020-06-25
 
