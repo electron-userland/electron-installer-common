@@ -51,6 +51,7 @@ expectType<string[]>(common.getGTKDepends('8.0.0', dependencyMap));
 expectType<string[]>(common.getTrashDepends('8.0.0', dependencyMap));
 expectType<string[]>(common.getUUIDDepends('8.0.0', dependencyMap));
 expectType<string[]>(common.getXcbDri3Depends('8.0.0', dependencyMap));
+expectType<string[]>(common.getXssDepends('8.0.0', dependencyMap));
 const packageJSON = {
   dependencies: {
     electron: '^8.0.0'
