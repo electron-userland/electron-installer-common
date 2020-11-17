@@ -26,8 +26,8 @@
     "src"
   ],
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^3.0.0",
-    "@typescript-eslint/parser": "^3.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.8.0",
+    "@typescript-eslint/parser": "^4.8.0",
     "ava": "^3.0.0",
     "codecov": "^3.5.0",
     "eslint": "^7.1.0",
