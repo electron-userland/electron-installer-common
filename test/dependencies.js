@@ -108,6 +108,14 @@ test('getXssDepends: retuns nothing as of 10.0', t => {
   t.is(dependencies.getXssDepends('10.0.0', dependencyMap).length, 0)
 })
 
+test('getXtstDepends: retuns xtst pre-11.0', t => {
+  t.is(dependencies.getXtstDepends('10.0.0', dependencyMap)[0], dependencyMap.xtst)
+})
+
+test('getXtstDepends: retuns nothing as of 11.0.0-beta.1', t => {
+  t.is(dependencies.getXtstDepends('11.0.0', dependencyMap).length, 0)
+})
+
 function testMergeUserSpecified (t, dataPath) {
   const defaults = {
     dependencies: ['lsb', 'libXScrnSaver']

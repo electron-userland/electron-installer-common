@@ -78,6 +78,7 @@ export function getTrashDepends(version: string, dependencyMap: DependencyMap): 
 export function getUUIDDepends(version: string, dependencyMap: DependencyMap): string[];
 export function getXcbDri3Depends(version: string, dependencyMap: DependencyMap): string[];
 export function getXssDepends(version: string, dependencyMap: DependencyMap): string[];
+export function getXtstDepends(version: string, dependencyMap: DependencyMap): string[];
 export function hasSandboxHelper(appDir: string): boolean;
 export function mergeUserSpecified(data: Record<string, unknown>, dependencyKey: string, defaults: Record<string, unknown>): Record<string, unknown>;
 export function readElectronVersion(appDir: string): Promise<string>;
