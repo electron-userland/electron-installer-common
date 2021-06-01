@@ -7,7 +7,7 @@
 
 ## Requirements
 
-Requires Node 10 or greater.
+Requires Node 12 or greater.
 
 ## Legal
 
