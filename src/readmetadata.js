@@ -2,7 +2,7 @@
 
 const { promisify } = require('util')
 
-const asar = require('asar')
+const asar = require('@electron/asar')
 const fs = require('fs-extra')
 const glob = promisify(require('glob'))
 const path = require('path')
