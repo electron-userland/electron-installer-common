@@ -2,7 +2,7 @@
 
 ## [Unreleased]
 
-[Unreleased]: https://github.com/electron-userland/electron-installer-common/compare/v0.10.3...master
+[Unreleased]: https://github.com/electron-userland/electron-installer-common/compare/v0.10.3...main
 
 ## [0.10.3] - 2020-08-25
 
