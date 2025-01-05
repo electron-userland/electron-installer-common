@@ -73,6 +73,6 @@
     "directory": "test"
   },
   "optionalDependencies": {
-    "@types/fs-extra": "^9.0.1"
+    "@types/fs-extra": "^11.0.4"
   }
 }
