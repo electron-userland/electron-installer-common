@@ -6,6 +6,7 @@ export type CatchableFunction = (err: Error) => void;
 export type Configuration = {
   arch?: string;
   bin?: string;
+  binName?: string;
   categories?: string[];
   description?: string;
   execArguments?: string[];
