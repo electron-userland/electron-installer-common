@@ -228,7 +228,7 @@ class ElectronInstaller {
 
     return error.wrapError('moving package files', async () => {
       const files = await glob(this.packagePattern, {
-        windowsPathsNoEscape: true,
+        windowsPathsNoEscape: true
       })
       this.options.packagePaths = await Promise.all(files.map(async file => {
         const renameTemplate = this.options.rename(this.options.dest, path.basename(file))
