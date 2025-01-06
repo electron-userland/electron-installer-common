@@ -5,7 +5,7 @@ function errorMessage (message, err) {
 }
 
 module.exports = {
-  errorMessage: errorMessage,
+  errorMessage,
   /**
    * Prepends the error message with the given `message`.
    *
