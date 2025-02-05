@@ -180,7 +180,7 @@ test('movePackage', t => {
     const rename = (dest, src) => {
       return path.join(dest, 'test_<%= name %>.pkg')
     }
-    const installer = new ElectronInstaller({ name: 'foo', dest: destDir, rename: rename })
+    const installer = new ElectronInstaller({ name: 'foo', dest: destDir, rename })
     installer.generateOptions()
     installer.packagePattern = path.join(dir.path, '*.pkg')
     await fs.ensureDir(destDir)

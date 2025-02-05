@@ -7,45 +7,35 @@ on:
     tags:
       - v[0-9]+.[0-9]+.[0-9]+*
   pull_request:
+  workflow_call:
+
+permissions:
+  contents: read
 
 jobs:
   build:
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
-        os: [windows-latest, macOS-latest, ubuntu-latest]
-        node-version: [10.x, 12.x]
+        os: [windows-latest, macos-13, ubuntu-latest]
+        node-version: [14.x, 16.x, 18.x, 20.x]
 
     steps:
       - name: Fix git checkout line endings
         run: git config --global core.autocrlf input
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: Setup Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Cache node_modules
-        uses: actions/cache@v1
-        with:
-          path: node_modules
-          key: ${{ runner.OS }}-build-${{ hashFiles('**/package.json') }}
-          restore-keys: |
-            ${{ runner.OS }}-build-${{ env.cache-name }}-
-            ${{ runner.OS }}-build-
-            ${{ runner.OS }}-
+          cache: yarn
       - name: Install
         run: |
-          npm install --engine-strict
-          npm update
+          yarn install --frozen-lockfile --ignore-engines
       - name: Lint
-        run: npm run lint
+        run: yarn lint
       - name: TypeScript definition linting
-        run: npm run tsd
+        run: yarn tsd
       - name: Test
-        run: npm run coverage
-      - name: Codecov
-        run: npm run codecov
-        env:
-          CI_OS: ${{ matrix.os }}
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-          NODE_VERSION: ${{ matrix.node-version }}
+        run: yarn coverage
