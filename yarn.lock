@@ -145,9 +145,9 @@
     "@babel/helper-validator-identifier" "^7.25.9"
 
 "@electron/asar@^3.2.5":
-  version "3.2.17"
-  resolved "https://registry.yarnpkg.com/@electron/asar/-/asar-3.2.17.tgz#91d28087aad80d1a1c8cc4e667c6476edf50f949"
-  integrity sha512-OcWImUI686w8LkghQj9R2ynZ2ME693Ek6L1SiaAgqGKzBaTIZw3fHDqN82Rcl+EU1Gm9EgkJ5KLIY/q5DCRbbA==
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/@electron/asar/-/asar-3.3.1.tgz#cd14e897770d9844673dd7c1dc8944e086e1e0ea"
+  integrity sha512-WtpC/+34p0skWZiarRjLAyqaAX78DofhDxnREy/V5XHfu1XEXbFCSSMcDQ6hNCPJFaPy8/NnUgYuf9uiCkvKPg==
   dependencies:
     commander "^5.0.0"
     glob "^7.1.6"
