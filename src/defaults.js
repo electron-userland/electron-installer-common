@@ -13,6 +13,7 @@ module.exports = function getDefaultsFromPackageJSON (pkg, fallbacks = {}) {
   return {
     arch: undefined,
     bin: pkg.name || 'electron',
+    binName: pkg.name || 'electron',
     execArguments: [],
     categories: [
       'GNOME',

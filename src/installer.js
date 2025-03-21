@@ -144,7 +144,7 @@ class ElectronInstaller {
    */
   async createBinarySymlink () {
     const binSrc = path.join('../lib', this.appIdentifier, this.options.bin)
-    const binDest = path.join(this.stagingDir, this.baseAppDir, 'bin', this.appIdentifier)
+    const binDest = path.join(this.stagingDir, this.baseAppDir, 'bin', this.options.binName)
     debug(`Symlinking binary from ${binSrc} to ${binDest}`)
 
     const bundledBin = path.join(this.sourceDir, this.options.bin)
