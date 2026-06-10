@@ -1,7 +1,5 @@
-'use strict'
-
-const fs = require('fs-extra')
-const path = require('path')
+import { readFile } from 'node:fs/promises';
+import path from 'node:path';
 
 /**
  * Reads the Electron version from the bundled Electron app's "version" file.
@@ -10,7 +8,7 @@ const path = require('path')
  * The content of the version file post-4.0 is just the version.
  * Both of these are acceptable to the `semver` module.
  */
-module.exports = async function readElectronVersion (appDir) {
-  const tag = await fs.readFile(path.resolve(appDir, 'version'))
-  return tag.toString().trim()
+export async function readElectronVersion(appDir: string): Promise<string> {
+  const tag = await readFile(path.resolve(appDir, 'version'), 'utf8');
+  return tag.trim();
 }
