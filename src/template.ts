@@ -11,6 +11,7 @@ const debug = debugModule('electron-installer-common:template');
  */
 export function renderTemplate(template: string, data: Record<string, unknown>): string {
   return ejs.render(template, data, {
+    // oxlint-disable-next-line typescript/no-base-to-string -- templates interpolate arbitrary values
     escape: (value: unknown) => (value === null || value === undefined ? '' : String(value)),
   });
 }

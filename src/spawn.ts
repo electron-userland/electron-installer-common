@@ -18,7 +18,9 @@ export class ExitCodeError extends Error {
     public readonly stdout: string,
     public readonly stderr: string,
   ) {
-    super(`Command failed with a non-zero return code (${code}):\n${cmd} ${args.join(' ')}\n${stdout}\n${stderr}`);
+    super(
+      `Command failed with a non-zero return code (${code}):\n${cmd} ${args.join(' ')}\n${stdout}\n${stderr}`,
+    );
     this.name = 'ExitCodeError';
   }
 }
