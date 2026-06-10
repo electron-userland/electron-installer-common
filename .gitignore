@@ -1,3 +1,13 @@
-.nyc_output
 node_modules
+dist
+coverage
 package-lock.json
+
+# Yarn 4 (https://yarnpkg.com/getting-started/qa#which-files-should-be-gitignored)
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
