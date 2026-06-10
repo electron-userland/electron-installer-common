@@ -21,18 +21,38 @@ where appropriate.
 
 We use the label [`help wanted`](https://github.com/electron-userland/electron-installer-common/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22) in the issue tracker to denote fairly-well-scoped-out bugs or feature requests that the community can pick up and work on. If any of those labeled issues do not have enough information, please feel free to ask constructive questions. (This applies to any open issue.)
 
+## Developing locally
+
+You will need Node.js 22.12 or greater. This project uses [Yarn 4](https://yarnpkg.com/) via the
+release vendored in `.yarn/releases` (or via [Corepack](https://nodejs.org/api/corepack.html)), so
+running `yarn` from the repository will use the correct version automatically.
+
+```shell
+yarn install --immutable
+yarn build
+yarn lint
+yarn test
+```
+
+Tests are run with [Vitest](https://vitest.dev/), and linting/formatting are handled by
+[oxlint](https://oxc.rs/docs/guide/usage/linter) and [oxfmt](https://oxc.rs/docs/guide/usage/formatter).
+A [Husky](https://typicode.github.io/husky/) pre-commit hook runs
+[lint-staged](https://github.com/lint-staged/lint-staged) to lint and format staged files
+automatically.
+
 ## Filing Pull Requests
 
 Here are some things to keep in mind as you file pull requests to fix bugs, add new features, etc.:
 
-* Travis CI is used to make sure that the project builds packages as expected on the supported
+* GitHub Actions is used to make sure that the project builds packages as expected on the supported
   platforms, using supported Node.js versions.
 * Unless it's impractical, please write tests for your changes. This will help us so that we can
   spot regressions much easier.
 * If your PR changes the behavior of an existing feature, or adds a new feature, please add/edit
   the package's documentation.
-* This project uses the [JavaScript Standard Style](https://www.npmjs.com/package/standard) as a
-  coding convention. CI will fail if the PR does not conform to this standard.
+* This project is linted with [oxlint](https://oxc.rs/docs/guide/usage/linter) and formatted with
+  [oxfmt](https://oxc.rs/docs/guide/usage/formatter) as its coding convention. CI will fail if the
+  PR does not conform to this standard.
 * One of the philosophies of the project is to keep the code base as small as possible. If you are
   adding a new feature, think about whether it is appropriate to go into a separate Node module,
   and then be integrated into this project.

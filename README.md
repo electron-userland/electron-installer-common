@@ -1,13 +1,18 @@
 # `electron-installer-common`
 
 [![Build Status](https://github.com/electron-userland/electron-installer-common/workflows/CI/badge.svg)](https://github.com/electron-userland/electron-installer-common/actions?query=workflow:CI)
-[![codecov](https://codecov.io/gh/electron-userland/electron-installer-common/branch/main/graph/badge.svg)](https://codecov.io/gh/electron-userland/electron-installer-common)
 
 `electron-installer-common` provides common functionality for creating distributable Electron apps.
 
 ## Requirements
 
-Requires Node 14.14 or greater.
+Requires Node.js 22.12.0 or greater.
+
+As of the next major version, this package is ESM-only and can no longer be loaded with `require`:
+
+```javascript
+import { ElectronInstaller } from 'electron-installer-common';
+```
 
 ## Legal
 
