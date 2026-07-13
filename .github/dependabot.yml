@@ -1,12 +1,5 @@
 version: 2
 updates:
-- package-ecosystem: npm
-  directory: "/"
-  schedule:
-    interval: daily
-  open-pull-requests-limit: 10
-  reviewers:
-  - malept
 - package-ecosystem: "github-actions"
   directory: "/"
   schedule:
