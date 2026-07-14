@@ -1,29 +1,32 @@
-'use strict'
+import asar from '@electron/asar';
+import { glob, readFile } from 'node:fs/promises';
+import path from 'node:path';
+import { wrapError } from './error.js';
+import { pathExists } from './fsutils.js';
+import type { PackageJSON, ReadMetadataOptions } from './types.js';
 
-const { promisify } = require('util')
-
-const asar = require('@electron/asar')
-const fs = require('fs-extra')
-const glob = promisify(require('glob'))
-const path = require('path')
-const { wrapError } = require('./error')
-
-async function determineResourcesDir (src) {
-  if (await fs.pathExists(path.join(src, 'resources'))) {
-    return 'resources'
+async function determineResourcesDir(src: string): Promise<string | undefined> {
+  if (await pathExists(path.join(src, 'resources'))) {
+    return 'resources';
   }
 
-  return (await glob('*.app/Contents/Resources', { cwd: src }))[0]
+  return (await Array.fromAsync(glob('*.app/Contents/Resources', { cwd: src })))[0];
 }
 
-async function readPackageJSONFromUnpackedApp (resourcesDir, options) {
-  const appPackageJSONPath = path.join(options.src, resourcesDir, 'app', 'package.json')
-  options.logger(`Reading package metadata from ${appPackageJSONPath}`)
+async function readPackageJSONFromUnpackedApp(
+  resourcesDir: string,
+  options: ReadMetadataOptions,
+): Promise<PackageJSON> {
+  const appPackageJSONPath = path.join(options.src, resourcesDir, 'app', 'package.json');
+  options.logger(`Reading package metadata from ${appPackageJSONPath}`);
 
-  return fs.readJson(appPackageJSONPath)
-    .catch(err => {
-      throw new Error(`Could not find, read, or parse package.json in packaged app '${options.src}':\n${err.message}`)
-    })
+  try {
+    return JSON.parse(await readFile(appPackageJSONPath, 'utf8'));
+  } catch (err) {
+    throw new Error(
+      `Could not find, read, or parse package.json in packaged app '${options.src}':\n${(err as Error).message}`,
+    );
+  }
 }
 
 /**
@@ -37,19 +40,19 @@ async function readPackageJSONFromUnpackedApp (resourcesDir, options) {
  * * `logger`: function that handles debug messages, e.g.,
  *             `debug('electron-installer-something:some-module')`
  */
-module.exports = async function readMetadata (options) {
+export async function readMetadata(options: ReadMetadataOptions): Promise<PackageJSON> {
   return wrapError('reading package metadata', async () => {
-    const resourcesDir = await determineResourcesDir(options.src)
+    const resourcesDir = await determineResourcesDir(options.src);
     if (!resourcesDir) {
-      throw new Error('Could not determine resources directory in Electron app')
+      throw new Error('Could not determine resources directory in Electron app');
     }
-    const appAsarPath = path.join(options.src, resourcesDir, 'app.asar')
+    const appAsarPath = path.join(options.src, resourcesDir, 'app.asar');
 
-    if (await fs.pathExists(appAsarPath)) {
-      options.logger(`Reading package metadata from ${appAsarPath}`)
-      return JSON.parse(asar.extractFile(appAsarPath, 'package.json'))
+    if (await pathExists(appAsarPath)) {
+      options.logger(`Reading package metadata from ${appAsarPath}`);
+      return JSON.parse(asar.extractFile(appAsarPath, 'package.json').toString());
     } else {
-      return readPackageJSONFromUnpackedApp(resourcesDir, options)
+      return readPackageJSONFromUnpackedApp(resourcesDir, options);
     }
-  })
+  });
 }

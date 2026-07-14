@@ -1,15 +1,20 @@
-'use strict'
+import debugModule from 'debug';
+import path from 'node:path';
+import { wrapError } from './error.js';
+import { createTemplatedFile } from './template.js';
 
-const { createTemplatedFile } = require('./template')
-const debug = require('debug')('electron-installer-common:desktop')
-const path = require('path')
-const { wrapError } = require('./error')
+const debug = debugModule('electron-installer-common:desktop');
 
-module.exports = {
-  createDesktopFile: async function createDesktopFile (templatePath, dir, baseName, options) {
-    const dest = path.join(dir, `${baseName}.desktop`)
-    debug(`Creating desktop file at ${dest}`)
+export async function createDesktopFile(
+  templatePath: string,
+  dir: string,
+  baseName: string,
+  options: Record<string, unknown>,
+): Promise<void> {
+  const dest = path.join(dir, `${baseName}.desktop`);
+  debug(`Creating desktop file at ${dest}`);
 
-    return wrapError('creating desktop file', () => createTemplatedFile(templatePath, dest, options, 0o644))
-  }
+  return wrapError('creating desktop file', () =>
+    createTemplatedFile(templatePath, dest, options, 0o644),
+  );
 }

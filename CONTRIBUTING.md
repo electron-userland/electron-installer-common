@@ -29,9 +29,16 @@ running `yarn` from the repository will use the correct version automatically.
 
 ```shell
 yarn install --immutable
+yarn build
 yarn lint
 yarn test
 ```
+
+Tests are run with [Vitest](https://vitest.dev/), and linting/formatting are handled by
+[oxlint](https://oxc.rs/docs/guide/usage/linter) and [oxfmt](https://oxc.rs/docs/guide/usage/formatter).
+A [Husky](https://typicode.github.io/husky/) pre-commit hook runs
+[lint-staged](https://github.com/lint-staged/lint-staged) to lint and format staged files
+automatically.
 
 ## Filing Pull Requests
 
@@ -43,8 +50,9 @@ Here are some things to keep in mind as you file pull requests to fix bugs, add 
   spot regressions much easier.
 * If your PR changes the behavior of an existing feature, or adds a new feature, please add/edit
   the package's documentation.
-* This project uses [ESLint](https://eslint.org/) with the Standard config as its coding
-  convention. CI will fail if the PR does not conform to this standard.
+* This project is linted with [oxlint](https://oxc.rs/docs/guide/usage/linter) and formatted with
+  [oxfmt](https://oxc.rs/docs/guide/usage/formatter) as its coding convention. CI will fail if the
+  PR does not conform to this standard.
 * One of the philosophies of the project is to keep the code base as small as possible. If you are
   adding a new feature, think about whether it is appropriate to go into a separate Node module,
   and then be integrated into this project.
