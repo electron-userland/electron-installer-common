@@ -1,4 +1,4 @@
-import asar from '@electron/asar';
+import { extractFile } from '@electron/asar';
 import { glob, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { wrapError } from './error.js';
@@ -50,7 +50,7 @@ export async function readMetadata(options: ReadMetadataOptions): Promise<Packag
 
     if (await pathExists(appAsarPath)) {
       options.logger(`Reading package metadata from ${appAsarPath}`);
-      return JSON.parse(asar.extractFile(appAsarPath, 'package.json').toString());
+      return JSON.parse(extractFile(appAsarPath, 'package.json').toString());
     } else {
       return readPackageJSONFromUnpackedApp(resourcesDir, options);
     }
