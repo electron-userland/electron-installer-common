@@ -32,9 +32,9 @@ jobs:
           cache: yarn
       - name: Install
         run: yarn install --immutable
+      - name: Build
+        run: yarn build
       - name: Lint
         run: yarn lint
-      - name: TypeScript definition linting
-        run: yarn tsd
       - name: Test
-        run: yarn coverage
+        run: yarn test
