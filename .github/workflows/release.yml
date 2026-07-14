@@ -18,16 +18,16 @@ jobs:
       id-token: write # for CFA and npm provenance
     steps:
       - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           persist-credentials: false
       - name: Setup Node.js
-        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
-          node-version: 20.x
+          node-version: 22.12.x
           cache: 'yarn'
       - name: Install
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
       - uses: continuousauth/action@4e8a2573eeb706f6d7300d6a9f3ca6322740b72d # v1.0.5
         with:
           project-id: ${{ secrets.CFA_PROJECT_ID }}
