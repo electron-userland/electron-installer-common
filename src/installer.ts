@@ -13,6 +13,9 @@ const debug = debugModule('electron-installer-common:installer');
 export type CopyFilter = (source: string, destination: string) => boolean | Promise<boolean>;
 
 export type InstallerOptions = Configuration & {
+  /** Basename for the installed `.desktop` file (the freedesktop app ID);
+   *  defaults to the sanitized package name. */
+  desktopId?: string;
   desktopTemplate?: string;
   dest?: string;
   icon?: string | Record<string, string>;
@@ -259,7 +262,8 @@ export class ElectronInstaller {
   async createDesktopFile(): Promise<void> {
     const templatePath = this.options.desktopTemplate || this.defaultDesktopTemplatePath;
     const baseDir = path.join(this.stagingDir, this.baseAppDir, 'share', 'applications');
-    return createDesktopFile(templatePath, baseDir, this.appIdentifier, this.options);
+    const desktopBaseName = this.options.desktopId || this.appIdentifier;
+    return createDesktopFile(templatePath, baseDir, desktopBaseName, this.options);
   }
 
   /**

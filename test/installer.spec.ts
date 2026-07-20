@@ -192,6 +192,20 @@ test('createDesktopFile with custom desktopTemplate', async () => {
   );
 });
 
+test('createDesktopFile with custom desktopId', async () => {
+  const installer = new ElectronInstaller({
+    name: 'World',
+    desktopId: 'com.example.World',
+    desktopTemplate: SIMPLE_TEMPLATE_PATH,
+  });
+  installer.generateOptions();
+  await installer.createStagingDir();
+  await installer.createDesktopFile();
+  await assertPathExists(
+    path.join(installer.stagingDir, 'usr', 'share', 'applications', 'com.example.World.desktop'),
+  );
+});
+
 test('createTemplatedFile', () => {
   return unsafeTempDir(async (dir) => {
     const renderedPath = path.join(dir.path, 'rendered');
